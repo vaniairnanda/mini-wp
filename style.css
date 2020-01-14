@@ -1,4 +1,4 @@
-#landingpage, #dashboard, #signupform {
+#landingpage, #signupform, #loginform, #dashboard {
     display: none;
 }
 
@@ -19,7 +19,7 @@ nav {
 .flex {
     margin-left: 3em;
     margin-right: 1em;
-    align-items: center;
+    /* align-items: center; */
 }
 ul {
     text-align: center;
@@ -76,4 +76,8 @@ a:hover {
 
 .relative {
    justify-content: baseline;
+}
+
+#blogcontent {
+    flex-direction: column;
 }
