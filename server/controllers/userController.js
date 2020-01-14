@@ -20,7 +20,6 @@ class userController {
 
 
     static login(req, res, next) {
-        console.log('masuk controller login')
         User.findOne({email: req.body.email})
             .then(result => {
                 if (result) {

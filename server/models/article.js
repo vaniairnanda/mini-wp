@@ -10,7 +10,7 @@ var articleSchema = new Schema({
         maxlength: 20
     },
     content : String,
-    category : Array,
+    category : String,
     published: Boolean,
     image : String,
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true},

@@ -6,9 +6,7 @@ const authentication = require('../middleware/authentication')
 
 
 router.use(authentication)
-router.post('/', (req, res) => {
-    res.send('ini page post artikel')
-})
+router.post('/', articleController.createArticle)
 
 
 

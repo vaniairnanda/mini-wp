@@ -182,9 +182,11 @@
         </section>
 
         <section id="signupform" style="padding-top: 1em;" v-else-if="currentPage === 'signupform'">
-                <div  class="bg-grey-lighter min-h-screen flex flex-col">
-                        <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                <div  style="align-items: center;" class="flex bg-grey-lighter min-h-screen flex flex-col">
+                        <div class="max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                             <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+                              <form>
+
                                 <h1 class="mb-8 text-3xl text-center">Sign up</h1>
                                 <input 
                                     type="text"
@@ -220,6 +222,7 @@
                                         Privacy Policy
                                     </a>
                                 </div>
+                              </form>
                             </div>
             
                             <span @click="changePage('signupform')" class="text-grey-dark mt-6">
@@ -343,7 +346,7 @@
             <a>January 13, 2020</a>
           </div>
           <div id="blogcontent" class="flex mb-4">
-            <div style="padding-top: 2em; display: block;" class="w-1/2 h-12">
+            <div style="padding-top: 2em;" class="w-1/2 h-12">
               <img src="https://media.newyorker.com/photos/5e1c94bfd634eb000828f12a/master/w_2560%2Cc_limit/Richard-Oscars-Primary.jpg" alt="blog pic">
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet risus nullam eget felis eget nunc lobortis. Fermentum et sollicitudin ac orci phasellus egestas tellus. Quisque sagittis purus sit amet. Sit amet consectetur adipiscing elit. Id donec ultrices tincidunt arcu non sodales neque. Nisl rhoncus mattis rhoncus urna neque viverra justo nec ultrices. Amet venenatis urna cursus eget nunc scelerisque viverra mauris in. Metus vulputate eu scelerisque felis imperdiet proin fermentum. Congue quisque egestas diam in arcu cursus euismod quis viverra. Mi in nulla posuere sollicitudin.
   
@@ -356,7 +359,7 @@
                   Lobortis feugiat vivamus at augue eget arcu dictum varius duis. Posuere lorem ipsum dolor sit. Nibh venenatis cras sed felis. Felis eget nunc lobortis mattis. Iaculis at erat pellentesque adipiscing commodo elit at. Sit amet cursus sit amet dictum sit amet justo. Tristique senectus et netus et malesuada fames ac turpis egestas. Velit laoreet id donec ultrices tincidunt arcu. Nulla facilisi etiam dignissim diam quis enim lobortis scelerisque. Magna sit amet purus gravida quis blandit. Tellus pellentesque eu tincidunt tortor aliquam. Vivamus arcu felis bibendum ut tristique. Cursus turpis massa tincidunt dui. Dolor magna eget est lorem ipsum. Quis eleifend quam adipiscing vitae proin. Egestas fringilla phasellus faucibus scelerisque eleifend. Ipsum faucibus vitae aliquet nec. Ac auctor augue mauris augue neque gravida in fermentum.</p>
             </div>
           </div>
-          <div style="float: right;" class="w-1/2">
+          <div style="float: right;" class="w-1/2 h-12">
             <div class="font-sans flex items-center justify-center bg-blue-darker w-full py-8">
               <div class="overflow-hidden bg-white rounded max-w-xs w-full shadow-lg  leading-normal">
                         <a href="#" class="block group hover:bg-blue p-4 border-b">
