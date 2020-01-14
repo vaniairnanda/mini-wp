@@ -20,10 +20,12 @@ module.exports = function(req, res, next) {
                 
             }) 
             .catch(err => {
+                console.log('masuk sini')
                 next(err)
             })
         
     } catch(err) {
+        console.log('masuk err try catch', err)
         next(err)
     }
 }

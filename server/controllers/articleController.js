@@ -17,6 +17,36 @@ class articleController {
             next(err)
         })
     }
+
+
+    static getArticles(req, res, next) {
+        Article.find({published: true})
+                .then(result => {
+                    if (result.length >= 1) {
+                        res.status(200).json({result : result})
+                    } else {
+                        next({
+                            statusCode: 404,
+                            message: 'No article to display'
+                        })
+                    }
+                })
+                .catch(err => {
+                    next(err)
+                })
+    }
+
+    static deleteArticle(req, res, next) {
+        Article.findOneAndDelete({_id: req.params.id})
+               .then(result => {
+                   res.status(200).json({message: 'Article successfully removed'})
+               })
+               .catch(err => {
+                   next(err)
+               })
+    }
+
+
 }
 
 

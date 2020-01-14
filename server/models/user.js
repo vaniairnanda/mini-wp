@@ -9,9 +9,13 @@ var userSchema = new Schema({
         trim : true,
         required: 'Email address is required', 
         lowercase: true,
+        unique: true,
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
-    password: String
+    password: {
+      type: String,
+      minlength: [4, 'Password too short. Min. length 4']
+    }
 })
 
 
@@ -24,21 +28,15 @@ userSchema.pre('save', function(next){
     next()
 })
 
-userSchema.path('email').validate(function(input, done){
-   this.model('User').count({email: input}), function (err, done){
-     if(err) {
-       return done(err.msg)
-     }
-     if (count > 0 ) {
-       this.invalidate('email')
-     } else {
-       done(!count)
-     }
-   }
- }, 'email has been registered, use another email')
-
-
 var User = mongoose.model('User', userSchema)
+
+userSchema.path('email').validate( async (input) => {
+  const emailCount = await mongoose.models.User.countDocuments({email: input });
+  if (emailCount) {
+    return false
+  }
+}, 'Email already exists');
+
 
 module.exports = User
 
