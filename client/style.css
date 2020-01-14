@@ -1,6 +1,6 @@
-#landingpage, #signupform, #loginform, #dashboard {
+/* #landingpage, #signupform, #loginform, #dashboard {
     display: none;
-}
+} */
 
 body, a {
     font-family: 'Roboto Condensed', sans-serif;
@@ -16,18 +16,26 @@ nav {
   
 }
 
-.flex {
+/* .flex {
     margin-left: 3em;
     margin-right: 1em;
-    /* align-items: center; */
+    align-items: center;
+} */
+
+img {
+    max-width: 100%;
 }
 ul {
     text-align: center;
     
 }
 
+li, span {
+    cursor: pointer;
+}
+
 a:hover {
-    background-color: grey
+    background-color: grey;
 }
 
 #banner {
@@ -81,3 +89,8 @@ a:hover {
 #blogcontent {
     flex-direction: column;
 }
+
+#loginform, #signupform {
+    justify-content: center;
+}
+
