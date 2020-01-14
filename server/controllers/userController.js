@@ -20,12 +20,14 @@ class userController {
 
 
     static login(req, res, next) {
+        console.log('masuk controller login')
         User.findOne({email: req.body.email})
             .then(result => {
                 if (result) {
                    let checkPassword = bcrypt.compareSync(req.body.password, result.password)
                    if (checkPassword) {
                        let access_token = jwt.sign({ id: result._id}, process.env.SECRET)
+                       console.log(access_token)
                        res.status(200).json({access_token : access_token})
                    } else {
                        next('Username/Password wrong')

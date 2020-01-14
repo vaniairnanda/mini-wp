@@ -4,6 +4,9 @@ const express = require('express')
 const app = express()
 var mongoose = require('mongoose')
 const router = require('./routes/index')
+const cors = require('cors')
+
+app.use(cors())
 mongoose.connect('mongodb://localhost/miniwp', {useNewUrlParser: true})
 
 var db = mongoose.connection
