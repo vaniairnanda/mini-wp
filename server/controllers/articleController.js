@@ -2,6 +2,7 @@ const Article = require('../models/article')
 
 class articleController {
     static createArticle(req, res, next) {
+        console.log('masuk article controller')
         Article.create({
             title: req.body.title,
             content: req.body.content,

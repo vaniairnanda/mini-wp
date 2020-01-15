@@ -23,7 +23,7 @@ var app = new Vue({
             })
                  .then(({ data }) => {
                      console.log(data)
-                     this.articles = data
+                     this.articles = data.result
                  })
                  .catch(err => {
                      console.log(err)
@@ -62,6 +62,28 @@ var app = new Vue({
             .catch(err => {
                 console.log(err)
             })
+        },
+        postArticle(){
+            let access_token = localStorage.getItem('access_token')
+            console.log('masuk post article')
+            axios.post('http://localhost:3000/articles', {
+                title: this.title,
+                category: this.category,
+                content: this.content,
+            },{
+                headers: { 
+                    access_token: access_token
+                }
+            })
+            .then(result => {
+                this.title = ''
+                this.content = ''
+                this.currentPage = 'landingpage'
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            
         }
         
     },

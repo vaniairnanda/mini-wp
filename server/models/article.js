@@ -7,7 +7,7 @@ var articleSchema = new Schema({
     title: {
         type: String,
         required: 'Please fill in article title',
-        maxlength: 20
+        maxlength: 30
     },
     content : String,
     category : String,
