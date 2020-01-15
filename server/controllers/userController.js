@@ -29,10 +29,10 @@ class userController {
                        console.log(access_token)
                        res.status(200).json({access_token : access_token})
                    } else {
-                       next('Username/Password wrong')
+                       next({name:'Bad request', statusCode:'400', message: 'Email/Password wrong'})
                    }
                 } else {
-                    next('User not found')
+                    next({name:'Bad request', statusCode:'400', message: 'Email/Password wrong'})
                 }
             })
             .catch(err => {

@@ -20,7 +20,7 @@ class articleController {
 
 
     static getArticles(req, res, next) {
-        Article.find({published: true})
+        Article.find({published: true}).populate('userId', 'username')
                 .then(result => {
                     if (result.length >= 1) {
                         res.status(200).json({result : result})
@@ -45,6 +45,29 @@ class articleController {
     }
 
 
+    static publishArticle(req, res, next) {
+        Article.findOneAndUpdate({_id : req.params.id}, {published : true})
+                .then(result => {
+                    res.status(200).json({message: 'Article successfully published'})
+                })
+                .catch(err => {
+                    next(err)
+                })
+    }
+
+    static editArticle(req, res, next) {
+        Article.findOneAndUpdate({_id: req.params.id}, {
+            title: req.body.title,
+            content: req.body.content,
+            image: req.body.image
+        })
+        .then(result => {
+            res.status(200).json({message: 'Article successfully updated'})
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
 }
 
 

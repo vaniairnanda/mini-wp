@@ -12,7 +12,7 @@ const cors = require('cors')
 const ATLAS_CONNECT = 'mongodb+srv://vaniairnanda:vaniairnanda@cluster0-snvnr.gcp.mongodb.net/mini-wp?retryWrites=true&w=majority'
 
 app.use(cors())
-mongoose.connect(ATLAS_CONNECT, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://localhost/miniwp', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -37,7 +37,7 @@ app.use('/', (err, req, res, next) => {
             res.status(401).json({
                 message: 'You are not authenticated, please log in'
             })
-        } else if (err.message) {
+        } else if (err.name === 'Bad Request') {
             res.status(err.statusCode).json({message: err.message})
         }
         res.status(500).json({message: err})

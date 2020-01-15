@@ -94,3 +94,7 @@ a:hover {
     justify-content: center;
 }
 
+#createArticle {
+    display: flex;
+    flex-direction: row;
+}

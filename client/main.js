@@ -6,7 +6,12 @@ var app = new Vue({
         currentPage: 'landingpage',
         articles: [],
         email: '',
-        password: ''
+        password: '',
+        onDashboard: 'createArticle',
+        title: '',
+        content: '', 
+        category: '',
+          
     },
     methods: {
         changePage(page) {
@@ -61,6 +66,12 @@ var app = new Vue({
         
     },
     created() {
-        this.getArticles()
+        let access_token = localStorage.getItem('access_token')
+        if (access_token) {
+            this.currentPage = 'dashboard'
+        } else {
+            this.currentPage = 'landingpage'
+            this.getArticles()
+        }
     }
 })
