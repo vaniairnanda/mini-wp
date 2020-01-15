@@ -6,6 +6,9 @@ router.get('/', (req, res) => {
     res.send('ini home')
 })
 
+router.get('*', (req, res) => {
+    res.send('404 page not found')
+})
 router.use('/users', user)
 router.use('/articles', article)
 
