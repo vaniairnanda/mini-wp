@@ -9,9 +9,10 @@ const app = express()
 var mongoose = require('mongoose')
 const router = require('./routes/index')
 const cors = require('cors')
+const ATLAS_CONNECT = 'mongodb+srv://vaniairnanda:vaniairnanda@cluster0-snvnr.gcp.mongodb.net/mini-wp?retryWrites=true&w=majority'
 
 app.use(cors())
-mongoose.connect('mongodb://localhost/miniwp', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(ATLAS_CONNECT, {useNewUrlParser: true, useUnifiedTopology: true})
 
 var db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -25,7 +26,6 @@ app.use('/', router)
 app.use('/', (err, req, res, next) => {
     if(err) {
         console.log(err)
-        err.statusCode = 500
         if (err.name === 'ValidationError') {
             res.status(401).json({message : err.message})
         } else if (err.name === 'MongoError') {
@@ -40,7 +40,7 @@ app.use('/', (err, req, res, next) => {
         } else if (err.message) {
             res.status(err.statusCode).json({message: err.message})
         }
-        res.status(err.statusCode).json({message: err})
+        res.status(500).json({message: err})
     } 
     })
 app.listen(process.env.PORT, () => {
