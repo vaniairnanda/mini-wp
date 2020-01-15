@@ -25,10 +25,8 @@ class articleController {
                     if (result.length >= 1) {
                         res.status(200).json({result : result})
                     } else {
-                        next({
-                            statusCode: 404,
-                            message: 'No article to display'
-                        })
+                        res.status(200).json({result: 'No article to display'})
+                     
                     }
                 })
                 .catch(err => {

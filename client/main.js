@@ -13,7 +13,9 @@ var app = new Vue({
             this.currentPage = page
         },
         getArticles() {
-            axios.get('http://localhost:3000/articles')
+            axios.get('http://localhost:3000/articles', {
+                headers: localStorage.getItem('access_token')
+            })
                  .then(({ data }) => {
                      console.log(data)
                      this.articles = data
@@ -31,17 +33,32 @@ var app = new Vue({
                      this.email = ''
                      this.password = ''
                      console.log(data)
-                     localStorage.setItem('access_token', data.access_token)
+                     localStorage.setItem('access_token', data.access_token) 
                      this.currentPage = 'dashboard'
                  })
                  .catch(err => {
+                     toastr.warning('Login failed. Please check your email/username')
                      console.log(err)
                  })  
         },
         userLogout() {
             this.currentPage = 'landingpage'
             localStorage.removeItem('access_token')
+        },
+        userRegister(){
+            axios.post('http://localhost:3000/users/register', {
+                username: this.username,
+                email: this.email,
+                password: this.password
+            })
+            .then(({data}) => {
+                this.currentPage = 'loginform'
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
+        
     },
     created() {
         this.getArticles()

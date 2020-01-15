@@ -5,7 +5,7 @@
         <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
         <link href="style.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
-        <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" rel="stylesheet">
     </head>
     <body>
       <div id="app">
@@ -185,31 +185,26 @@
                 <div  style="align-items: center;" class="flex bg-grey-lighter min-h-screen flex flex-col">
                         <div class="max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                             <div class="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-                              <form>
+                              <form @submit.prevent="userRegister">
 
                                 <h1 class="mb-8 text-3xl text-center">Sign up</h1>
                                 <input 
                                     type="text"
                                     class="block border border-grey-light w-full p-3 rounded mb-4"
                                     name="fullname"
-                                    placeholder="Full Name" />
+                                    placeholder="Full Name" v-model="username"/>
                                 <input 
                                     type="text"
                                     class="block border border-grey-light w-full p-3 rounded mb-4"
                                     name="email"
-                                    placeholder="Email" />
+                                    placeholder="Email" v-model="email" />
             
                                 <input 
                                     type="password"
                                     class="block border border-grey-light w-full p-3 rounded mb-4"
                                     name="password"
-                                    placeholder="Password" />
-                                <input 
-                                    type="password"
-                                    class="block border border-grey-light w-full p-3 rounded mb-4"
-                                    name="confirm_password"
-                                    placeholder="Confirm Password" />
-                                <button
+                                    placeholder="Password" v-model="password" />
+                                <button @click="userRegister"
                                     type="submit"
                                     class="w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none my-1">Create Account</button>
             
@@ -388,8 +383,10 @@
        </section>
       </div>
 
+      <!-- CDNs -->
        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.1/axios.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
        <script src="main.js"></script> 
     </body>
 </html>

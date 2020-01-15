@@ -4,11 +4,10 @@ const articleController = require('../controllers/articleController')
 const authentication = require('../middleware/authentication')
 const authorization = require('../middleware/authorization')
 
-router.get('/', articleController.getArticles)
 router.use(authentication)
+router.get('/', articleController.getArticles)
 router.post('/', articleController.createArticle)
-router.use(authorization)
-router.delete('/', articleController.deleteArticle)
+router.delete('/:id', authorization, articleController.deleteArticle)
 
 
 
