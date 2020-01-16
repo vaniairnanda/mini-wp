@@ -91,9 +91,11 @@ var app = new Vue({
         let access_token = localStorage.getItem('access_token')
         if (access_token) {
             this.currentPage = 'dashboard'
+            this.getArticles()
         } else {
             this.currentPage = 'landingpage'
             this.getArticles()
         }
+        this.getArticles()
     }
 })
