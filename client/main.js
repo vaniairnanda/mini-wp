@@ -11,6 +11,7 @@ var app = new Vue({
         title: '',
         content: '', 
         category: '',
+        drafts: []
           
     },
     methods: {
@@ -84,6 +85,18 @@ var app = new Vue({
                 console.log(err)
             })
             
+        },
+        getDrafts() {
+            axios.get('http://localhost:3000/articles/drafts', {
+                headers: localStorage.getItem('access_token')
+            })
+            .then(({ data }) => {
+                console.log(data)
+                this.drafts = data.result
+            })
+            .catch(err => {
+                console.log(err)
+            })
         }
         
     },
@@ -91,11 +104,16 @@ var app = new Vue({
         let access_token = localStorage.getItem('access_token')
         if (access_token) {
             this.currentPage = 'dashboard'
-            this.getArticles()
+            if (this.currentPage === 'dashboard' && this.onDashboard === 'viewPublished') {
+                this.getArticles()
+            } else if (this.currentPage === 'dashboard' && this.onDashboard === 'viewDrafts') {
+                this.getDrafts()
+            }
         } else {
             this.currentPage = 'landingpage'
             this.getArticles()
         }
+        this.getDrafts()
         this.getArticles()
     }
 })

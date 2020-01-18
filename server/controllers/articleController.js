@@ -69,6 +69,32 @@ class articleController {
             next(err)
         })
     }
+
+    static readOne(req, res, next) {
+        Article.findOne({_id: req.params.id})
+               .then(result => {
+                   res.status(200).json({result: result})
+               })
+               .catch(err => {
+                   next(err)
+               })
+
+    }
+
+    static getDrafts(req, res, next) {
+        Article.find({published: false}).populate('userId', 'username')
+        .then(result => {
+            if (result.length >= 1) {
+                res.status(200).json({result : result})
+            } else {
+                res.status(200).json({result: 'No article to display'})
+             
+            }
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
 }
 
 
