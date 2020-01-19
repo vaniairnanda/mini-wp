@@ -87,6 +87,9 @@ export default {
   methods : {
        changePage(page) {
             this.$emit('change-page', page)
+        }, 
+        notify(message) {
+             this.$emit('notify-user', message)
         },
          userLogin() {
             axios.post('http://localhost:3000/users/login', {

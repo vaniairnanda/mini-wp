@@ -83742,6 +83742,7 @@ var _default = {
       }).then(function (_ref7) {
         var data = _ref7.data;
         _this7.resultimg = data;
+        _this7.onDashboard = 'viewDrafts';
         console.log(data);
         console.log("uploaded");
       }).catch(function (err) {
@@ -83879,11 +83880,7 @@ exports.default = _default;
                   [
                     _c("img", {
                       staticClass: "w-full",
-                      attrs: {
-                        src:
-                          "https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg",
-                        alt: "Trump"
-                      }
+                      attrs: { src: draft.image, alt: "Trump" }
                     }),
                     _vm._v(" "),
                     _c("div", { staticClass: "px-6 py-4" }, [
@@ -83966,11 +83963,11 @@ exports.default = _default;
                   [
                     _c("img", {
                       staticClass: "w-full",
-                      attrs: {
-                        src:
-                          "https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg",
-                        alt: "Trump"
-                      }
+                      staticStyle: {
+                        "max-height": "200px",
+                        "max-width": "200px"
+                      },
+                      attrs: { src: article.image, alt: "Trump" }
                     }),
                     _vm._v(" "),
                     _c("div", { staticClass: "px-6 py-4" }, [
@@ -84214,6 +84211,10 @@ exports.default = _default;
                     }
                   },
                   [
+                    _c("h3", [
+                      _vm._v("Upload a featured image for your article")
+                    ]),
+                    _vm._v(" "),
                     _c("div", { staticClass: "custom-file" }, [
                       _c("input", {
                         staticClass: "custom-file-input",
@@ -84401,10 +84402,7 @@ var staticRenderFns = [
           staticClass:
             "shadow bg-orange-700 hover:bg-orange-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
           attrs: { type: "submit" }
-        }),
-        _vm._v(
-          "\n                            Save\n                      \n                    "
-        )
+        })
       ])
     ])
   },
@@ -84811,6 +84809,9 @@ var _default = {
   methods: {
     changePage: function changePage(page) {
       this.$emit('change-page', page);
+    },
+    notify: function notify(message) {
+      this.$emit('notify-user', message);
     },
     userLogin: function userLogin() {
       var _this = this;
@@ -85470,7 +85471,8 @@ var _default = {
       message: 'Hello world',
       currentPage: 'landingpage',
       articles: [],
-      drafts: []
+      drafts: [],
+      notification: ''
     };
   },
   components: {
@@ -85650,7 +85652,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41161" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43189" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -21,7 +21,8 @@ export default {
       message: 'Hello world',
       currentPage: 'landingpage',
       articles: [],
-      drafts: []
+      drafts: [],
+      notification: '',
     };
   },
   components: {

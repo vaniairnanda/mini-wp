@@ -28,7 +28,7 @@
 
             <div id='viewDrafts' v-if="onDashboard === 'viewDrafts'" class="w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white">
               <div v-for="draft in drafts" :key="draft._id" class="w-1/2 max-w-sm rounded overflow-hidden shadow-lg">
-                <img class="w-full" src="https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg" alt="Trump">
+                <img class="w-full" :src="draft.image" alt="Trump">
                 <div class="px-6 py-4">
                   <div class="font-bold text-xl mb-2">{{draft.category}}</div>
                   <p class="text-gray-700 text-base">
@@ -44,7 +44,7 @@
 
             <div id='viewPublished' v-if="onDashboard === 'viewPublished'" class="w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white">
               <div v-for="article in articles" :key="article._id" class="w-1/2 max-w-sm rounded overflow-hidden shadow-lg">
-                <img class="w-full" src="https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg" alt="Trump">
+                <img class="w-full" :src="article.image" alt="Trump" style="max-height: 200px; max-width: 200px;">
                 <div class="px-6 py-4">
                   <div class="font-bold text-xl mb-2">{{article.category}}</div>
                   <p class="text-gray-700 text-base">
@@ -111,7 +111,6 @@
                         <br>
                         <div class="md:w-2/3">
                             <input type="submit" class="shadow bg-orange-700 hover:bg-orange-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-                                Save
                           </input>
                         </div>
                       </div>
@@ -120,6 +119,7 @@
           </div>
                   <div v-if="onDashboard === 'uploadImage'" id="uploadImage" class="w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white"> 
                      <form method="post" enctype="multipart/form-data" @submit.prevent="submitFile">
+                     <h3>Upload a featured image for your article</h3>
                       <div class="custom-file" >
                         <input type="file" class="custom-file-input" id="customFile"  @change="fileChange"/>
                         <label class="custom-file-label" for="customFile" >Choose file</label>
@@ -298,6 +298,7 @@ export default {
         })
           .then(({data})=> {
             this.resultimg = data
+            this.onDashboard = 'viewDrafts'
             console.log(data)
             console.log("uploaded");
           })
