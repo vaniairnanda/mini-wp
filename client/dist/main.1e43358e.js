@@ -9454,6 +9454,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
 name: 'dashboard';
 
 var _default = {
@@ -9531,6 +9537,25 @@ var _default = {
         var data = _ref2.data;
         console.log(data);
         _this3.articles = data.result;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    deleteItem: function deleteItem(itemId) {
+      var _this4 = this;
+
+      console.log('masuk delete article');
+      axios.delete("http://localhost:3000/articles/".concat(itemId), {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      }).then(function (_ref3) {
+        var data = _ref3.data;
+        console.log(data);
+
+        _this4.getArticles();
+
+        _this4.getDrafts();
       }).catch(function (err) {
         console.log(err);
       });
@@ -9688,7 +9713,39 @@ exports.default = _default;
                       _vm._v(" "),
                       _c("p", { staticClass: "text-gray-700 text-base" }, [
                         _vm._v(" by " + _vm._s(draft.userId.username))
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        },
+                        [_vm._v("Publish")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
+                        },
+                        [_vm._v("Edit")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-transparent hover:bg-blue-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteItem(draft._id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
                     ])
                   ]
                 )
@@ -9742,7 +9799,39 @@ exports.default = _default;
                       _vm._v(" "),
                       _c("p", { staticClass: "text-gray-700 text-base" }, [
                         _vm._v(" created at: " + _vm._s(article.created_at))
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                        },
+                        [_vm._v("Read More")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
+                        },
+                        [_vm._v("Unpublish")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "bg-transparent hover:bg-blue-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteItem(article._id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
                     ])
                   ]
                 )
@@ -11334,7 +11423,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34803" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34751" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

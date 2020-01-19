@@ -35,6 +35,9 @@
                     {{draft.title}}
                   </p>
                   <p class="text-gray-700 text-base"> by {{draft.userId.username}}</p>
+                  <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >Publish</button>
+                  <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" >Edit</button>
+                  <button @click="deleteItem(draft._id)" class="bg-transparent hover:bg-blue-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">Delete</button> 
                 </div>
             </div>
             </div>
@@ -49,6 +52,9 @@
                   </p>
                   <p class="text-gray-700 text-base"> by {{article.userId.username}}</p>
                   <p class="text-gray-700 text-base"> created at: {{article.created_at}}</p>
+                  <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >Read More</button>
+                  <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" >Unpublish</button>
+                  <button @click="deleteItem(article._id)" class="bg-transparent hover:bg-blue-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">Delete</button> 
                 </div>
               </div>
             </div>
@@ -205,6 +211,23 @@ export default {
                      console.log(err)
                  })
         },
+        deleteItem(itemId) {
+          console.log('masuk delete article')
+            axios.delete(`http://localhost:3000/articles/${itemId}`,{
+                headers: { 
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+                 .then(({ data }) => {
+                     console.log(data)
+                     this.getArticles()
+                     this.getDrafts()
+                     
+                 })
+                 .catch(err => {
+                     console.log(err)
+                 })
+        }
 
         
   },
