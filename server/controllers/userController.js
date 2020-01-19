@@ -1,6 +1,8 @@
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { OAuth2Client } = require('google-auth-library')
+
 class userController {
 
     static register(req, res, next) {
@@ -27,7 +29,7 @@ class userController {
                    if (checkPassword) {
                        let access_token = jwt.sign({ id: result._id}, process.env.SECRET)
                        console.log(access_token, 'masuk login')
-                       res.status(200).json({access_token : access_token})
+                       res.status(200).json({access_token : access_token, name: result.username})
                    } else {
                        next({name:'Bad request', statusCode:'400', message: 'Email/Password wrong'})
                    }
@@ -38,6 +40,43 @@ class userController {
             .catch(err => {
                 next(err)
             })
+    }
+
+
+    static googleSignIn(req, res, next) {
+        const client = new OAuth2Client(process.env.CLIENT_ID)
+        let payload
+        client.verifyIdToken({
+            idToken : req.body.google_token,
+            audience: process.env.CLIENT_ID
+        }) 
+            .then(ticket => {
+                payload = ticket.getPayload()
+                return User.findOne({email: payload.email})
+            })
+            .then(user => {
+                if (user) {
+                    return user
+                } else {
+                    return User.create({
+                        username: payload.name,
+                        email: payload.email,
+                        password: process.env.DEFAULT_PASSWORD,
+                    })
+                }
+            })
+            .then(loggedinUser => {
+                const access_token = jwt.sign({
+                    id: loggedinUser._id,
+                }, process.env.SECRET)
+                
+                res.status(200).json({access_token : access_token, userId: loggedinUser._id})
+            })
+            .catch(err => {
+                console.log(err)
+                next(err)
+            })
+
     }
 
 }

@@ -8948,9 +8948,6 @@ exports.default = void 0;
 //
 //
 //
-//
-//
-//
 name: 'navbar';
 
 var _default = {
@@ -8969,6 +8966,31 @@ var _default = {
 
       this.$emit('change-page', 'landingpage');
       localStorage.removeItem('access_token');
+      localStorage.removeItem('username');
+    },
+    onSignIn: function onSignIn(googleUser) {
+      var _this = this;
+
+      var id_token = googleUser.getAuthResponse().id_token;
+      axios.post('http://localhost:3000/users/google-sign-in', {
+        google_token: id_token
+      }).then(function (_ref) {
+        var data = _ref.data;
+        var access_token = data.access_token;
+        localStorage.setItem('access_token', access_token);
+        console.log(access_token, 'dr google sign in');
+
+        _this.$emit('change-page', 'dashboard');
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    signOut: function signOut() {
+      console.log('google signout kepanggil');
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
     }
   }
 };
@@ -9011,32 +9033,6 @@ exports.default = _default;
                 [_vm._v("Home")]
               )
             ]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              staticClass: "mr-6 text-black-500 hover:text-white",
-              on: {
-                click: function($event) {
-                  return _vm.changePage("dashboard")
-                }
-              }
-            },
-            [_c("a", [_vm._v("Dashboard")])]
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            {
-              staticClass: "mr-6 text-black-500 hover:text-white",
-              on: {
-                click: function($event) {
-                  return _vm.changePage("blogview")
-                }
-              }
-            },
-            [_c("a", [_vm._v("Featured Blog")])]
           )
         ])
       ]),
@@ -9082,7 +9078,9 @@ exports.default = _default;
                     )
                   ]
                 )
-              ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
             ])
           ])
         : _vm._e(),
@@ -9108,8 +9106,7 @@ exports.default = _default;
             ])
           ])
         : _vm._e()
-    ]),
-    _vm._v("\n                       " + _vm._s(_vm.currentPage) + "\n ")
+    ])
   ])
 }
 var staticRenderFns = [
@@ -9129,6 +9126,21 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("a", [_vm._v("Mini-WP")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "mr-6" }, [
+      _c("div", {
+        staticClass: "g-signin2",
+        attrs: {
+          "data-width": "75",
+          "data-height": "30",
+          "data-longtitle": "true"
+        }
+      })
     ])
   }
 ]
@@ -83578,7 +83590,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
 name: 'dashboard';
 
 var _default = {
@@ -83591,7 +83602,8 @@ var _default = {
       content: '',
       category: '',
       readOne: {},
-      imageId: ''
+      imageId: '',
+      username: ''
     };
   },
   props: {
@@ -83753,6 +83765,7 @@ var _default = {
   created: function created() {
     this.getArticles();
     this.getDrafts();
+    this.username = localStorage.getItem('username');
   }
 };
 exports.default = _default;
@@ -83786,9 +83799,19 @@ exports.default = _default;
                 }
               }),
               _vm._v(" "),
-              _vm._m(0),
+              _c("div", { staticClass: "flex justify-center -mt-8" }),
               _vm._v(" "),
-              _vm._m(1),
+              _c("div", { staticClass: "text-center px-3 pb-6 pt-2" }, [
+                _c("h3", { staticClass: "text-black text-sm bold font-sans" }, [
+                  _vm._v("Hello, " + _vm._s(_vm.username) + "!")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  { staticClass: "mt-2 font-sans font-light text-grey-dark" },
+                  [_vm._v("What's your focus today?")]
+                )
+              ]),
               _vm._v(" "),
               _c("div", [
                 _c("ul", { staticClass: "list" }, [
@@ -84056,7 +84079,7 @@ exports.default = _default;
                       }
                     },
                     [
-                      _vm._m(2),
+                      _vm._m(0),
                       _vm._v(" "),
                       _c("div", { staticClass: "w-2/3" }, [
                         _c("input", {
@@ -84093,7 +84116,7 @@ exports.default = _default;
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "w-full flex mb-6" }, [
-                        _vm._m(3),
+                        _vm._m(1),
                         _vm._v(" "),
                         _c("div", { staticClass: "w-1/3" }, [
                           _c(
@@ -84155,7 +84178,7 @@ exports.default = _default;
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "w-3/4 flex mb-6" }, [
-                        _vm._m(4),
+                        _vm._m(2),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -84182,7 +84205,7 @@ exports.default = _default;
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(5)
+                      _vm._m(3)
                     ]
                   )
                 ])
@@ -84232,7 +84255,7 @@ exports.default = _default;
                       )
                     ]),
                     _vm._v(" "),
-                    _vm._m(6)
+                    _vm._m(4)
                   ]
                 )
               ]
@@ -84300,34 +84323,6 @@ exports.default = _default;
     : _vm._e()
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex justify-center -mt-8" }, [
-      _c("img", {
-        staticClass: "rounded-full border-solid border-white border-2 -mt-3",
-        attrs: {
-          src:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnoJRCFSc902EEBMV4azWHtaMCnkzAXqblGpxr_8eBwxSbsnVZ5w&s"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center px-3 pb-6 pt-2" }, [
-      _c("h3", { staticClass: "text-black text-sm bold font-sans" }, [
-        _vm._v("User Name")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "mt-2 font-sans font-light text-grey-dark" }, [
-        _vm._v("Hello, i'm from the other side!")
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -84574,11 +84569,7 @@ exports.default = _default;
                 [
                   _c("img", {
                     staticClass: "w-full",
-                    attrs: {
-                      src:
-                        "https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg",
-                      alt: "Trump"
-                    }
+                    attrs: { src: article.image, alt: "Trump" }
                   }),
                   _vm._v(" "),
                   _c("div", { staticClass: "px-6 py-4" }, [
@@ -84825,6 +84816,7 @@ var _default = {
         _this.password = '';
         console.log(data);
         localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('username', data.name);
 
         _this.changePage('dashboard');
       }).catch(function (err) {
@@ -85652,7 +85644,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43189" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34355" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

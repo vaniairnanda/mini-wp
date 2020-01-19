@@ -12,12 +12,6 @@
                       <li @click="changePage('landingpage')" class="mr-6">
                         <a class="text-black-500 hover:text-white" href="#">Home</a>
                       </li>
-                      <li @click="changePage('dashboard')" class="mr-6 text-black-500 hover:text-white">
-                        <a>Dashboard</a>
-                      </li>
-                      <li @click="changePage('blogview')" class="mr-6 text-black-500 hover:text-white">
-                        <a>Featured Blog</a>
-                      </li>
                     </ul>
                   </div>
                   <div v-if="currentPage === 'landingpage'" class="w-1/3 h-12">
@@ -32,6 +26,9 @@
                           Sign Up
                           </button>
                         </li>
+                        <li class="mr-6">
+                          <div class="g-signin2" data-width="75" data-height="30" data-longtitle="true">
+                        </li>
                     </ul>
                   </div>
                    
@@ -45,7 +42,7 @@
                     </ul>
                   </div> 
                 </div>
-                          {{currentPage}}
+                          
     </nav>
 
 </template>
@@ -73,7 +70,30 @@ export default {
             // this.changePage('landingpage')
             this.$emit('change-page', 'landingpage') 
             localStorage.removeItem('access_token')
+             localStorage.removeItem('username')
         },
+        onSignIn(googleUser) {
+        var id_token = googleUser.getAuthResponse().id_token;
+          axios.post('http://localhost:3000/users/google-sign-in', {
+                  google_token: id_token
+          }) 
+                .then(({data}) => {
+                  let access_token = data.access_token
+                  localStorage.setItem('access_token', access_token)
+                  console.log(access_token, 'dr google sign in')
+                  this.$emit('change-page', 'dashboard') 
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+        },
+        signOut() {
+          console.log('google signout kepanggil')
+          var auth2 = gapi.auth2.getAuthInstance();
+          auth2.signOut().then(function () {
+            console.log('User signed out.');
+          });
+        }
 
   }
 };

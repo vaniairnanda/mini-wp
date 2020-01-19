@@ -25,7 +25,7 @@
 
               <div class="w-3/4 h-12 flex flex-wrap">
                 <div v-for="article in articles" :key="article._id" class="w-1/2 max-w-sm rounded overflow-hidden shadow-lg">
-                    <img class="w-full" src="https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg" alt="Trump">
+                    <img class="w-full" :src="article.image" alt="Trump">
                     <div class="px-6 py-4">
                       <div class="font-bold text-xl mb-2">{{article.category}}</div>
                       <p class="text-gray-700 text-base">
