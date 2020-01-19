@@ -99,7 +99,8 @@
                             </label>
                         </div>
                         <div class="w-2/3">
-                            <textarea v-model="content" class="form-textarea block w-full focus:bg-white" id="my-textarea" value="" rows="30"></textarea>
+                            <!-- <textarea v-model="content" class="form-textarea block w-full focus:bg-white" id="my-textarea" value="" rows="30"></textarea> -->
+                            <tinymce id="d1" v-model="content"></tinymce>
                             <p class="py-2 text-sm text-gray-600">add your article here</p>
                         </div>
                     </div>
@@ -125,7 +126,7 @@
                   <div id="blogcontent" class="flex mb-4">
                     <div style="padding-top: 2em;" class="w-1/2 h-12">
                       <img :src="readOne.image" style="max-width: 500px">
-                      <p>{{readOne.content}}</p>
+                      <p v-html="readOne.content">{{readOne.content}}</p>
                     </div>
                    </div>
                 </div>
@@ -134,7 +135,7 @@
 </template>
 
 <script>
-import viewDrafts from "./view-drafts"
+import tinymce from 'vue-tinymce-editor'
 name: 'dashboard'
 export default {
     data() {
@@ -152,7 +153,7 @@ export default {
     currentPage : String,
   },
   components: {
-    viewDrafts
+    tinymce
   },
   methods : {
        changePage(page) {
