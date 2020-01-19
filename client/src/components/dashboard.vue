@@ -35,7 +35,7 @@
                     {{draft.title}}
                   </p>
                   <p class="text-gray-700 text-base"> by {{draft.userId.username}}</p>
-                  <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >Publish</button>
+                  <button @click="publishDraft(draft._id)" class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >Publish</button>
                   <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" >Edit</button>
                   <button @click="deleteItem(draft._id)" class="bg-transparent hover:bg-blue-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">Delete</button> 
                 </div>
@@ -53,7 +53,7 @@
                   <p class="text-gray-700 text-base"> by {{article.userId.username}}</p>
                   <p class="text-gray-700 text-base"> created at: {{article.created_at}}</p>
                   <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >Read More</button>
-                  <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" >Unpublish</button>
+                  <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" >Edit</button>
                   <button @click="deleteItem(article._id)" class="bg-transparent hover:bg-blue-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">Delete</button> 
                 </div>
               </div>
@@ -223,6 +223,27 @@ export default {
                      this.getArticles()
                      this.getDrafts()
                      
+                 })
+                 .catch(err => {
+                     console.log(err)
+                 })
+        },
+         publishDraft(itemId) {
+          console.log('masuk publish article')
+          console.log(localStorage.getItem('access_token'))
+          let access_token = localStorage.getItem('access_token')
+            axios.patch(`http://localhost:3000/articles/${itemId}`,  {
+                published: true
+            },{
+              headers : {
+                access_token : access_token
+              }
+            })
+                 .then(({ data }) => {
+                     console.log(data)
+                     this.onDashboard = 'viewPublished'
+                     this.getArticles()
+                     this.getDrafts()
                  })
                  .catch(err => {
                      console.log(err)

@@ -9559,6 +9559,30 @@ var _default = {
       }).catch(function (err) {
         console.log(err);
       });
+    },
+    publishDraft: function publishDraft(itemId) {
+      var _this5 = this;
+
+      console.log('masuk publish article');
+      console.log(localStorage.getItem('access_token'));
+      var access_token = localStorage.getItem('access_token');
+      axios.patch("http://localhost:3000/articles/".concat(itemId), {
+        published: true
+      }, {
+        headers: {
+          access_token: access_token
+        }
+      }).then(function (_ref4) {
+        var data = _ref4.data;
+        console.log(data);
+        _this5.onDashboard = 'viewPublished';
+
+        _this5.getArticles();
+
+        _this5.getDrafts();
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
   created: function created() {
@@ -9719,7 +9743,12 @@ exports.default = _default;
                         "button",
                         {
                           staticClass:
-                            "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded",
+                          on: {
+                            click: function($event) {
+                              return _vm.publishDraft(draft._id)
+                            }
+                          }
                         },
                         [_vm._v("Publish")]
                       ),
@@ -9816,7 +9845,7 @@ exports.default = _default;
                           staticClass:
                             "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
                         },
-                        [_vm._v("Unpublish")]
+                        [_vm._v("Edit")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -11423,7 +11452,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34751" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34025" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
