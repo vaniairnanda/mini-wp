@@ -105,8 +105,10 @@
                         </div>
                     </div>
 
-                    <div class="md:flex md:items-center">
-                        <div class="md:w-1/3"></div>
+                    <div class="md:flex">
+                        <div class="md:w-1/3">
+                        </div>
+                        <br>
                         <div class="md:w-2/3">
                             <input type="submit" class="shadow bg-orange-700 hover:bg-orange-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
                                 Save
@@ -116,6 +118,17 @@
                   </form>
             </div>
           </div>
+                  <div v-if="onDashboard === 'uploadImage'" id="uploadImage" class="w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white"> 
+                     <form method="post" enctype="multipart/form-data" @submit.prevent="submitFile">
+                      <div class="custom-file" >
+                        <input type="file" class="custom-file-input" id="customFile"  @change="fileChange"/>
+                        <label class="custom-file-label" for="customFile" >Choose file</label>
+                      </div>
+                      <div class="form-group mt-3">
+                        <input type="submit"  class="form-control btn btn-warning">
+                      </div>
+                    </form>
+                  </div>
                 <div v-if="onDashboard === 'readArticle'" class="w-full"> 
                     <div style="padding-left: 25px;" class="flex-col bg-white shadow">
                     <a style="color: red; padding-top: 2em;">{{readOne.category}}</a>
@@ -146,7 +159,8 @@ export default {
       title: '',
       content: '', 
       category: '',
-      readOne: {}
+      readOne: {},
+      imageId : ''
     };
   },
   props: {
@@ -171,12 +185,13 @@ export default {
                     access_token: access_token
                 }
             })
-            .then(result => {
+            .then(({data}) => {
+                this.imageId = data.id
                 this.title = ''
                 this.content = ''
                 this.getDrafts()
                 this.getArticles()
-                this.onDashboard = 'viewDrafts'
+                this.onDashboard = 'uploadImage'
             })
             .catch(err => {
                 console.log(err)
@@ -265,9 +280,31 @@ export default {
                  .catch(err => {
                      console.log(err)
                  })
-        }
-
-        
+        },
+        fileChange (event) {
+      console.log(event.target.files[0], '<<>>')
+      this.image = event.target.files[0]
+    },
+    submitFile() {
+      let formData = new FormData();
+      formData.append("image", this.image);
+      console.log(">> formData >> ", formData);
+      let articleId = this.imageId
+      axios.post(`http://localhost:3000/articles/upload/${articleId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            access_token : localStorage.getItem('access_token')
+          }
+        })
+          .then(({data})=> {
+            this.resultimg = data
+            console.log(data)
+            console.log("uploaded");
+          })
+          .catch((err) =>{
+            console.log("failed");
+          });
+    }      
   },
   created : function() {
     this.getArticles()

@@ -12,7 +12,7 @@ class articleController {
             userId: req.currentUserId
         })
         .then(data => {
-            res.status(201).json({message: 'Article successfully created'})
+            res.status(201).json({id: data._id})
         })
         .catch(err => {
             next(err)
@@ -57,10 +57,9 @@ class articleController {
     }
 
     static editArticle(req, res, next) {
+        console.log(req.file.cloudStoragePublicUrl, 'url image')
         Article.findOneAndUpdate({_id: req.params.id}, {
-            title: req.body.title,
-            content: req.body.content,
-            image: req.body.image
+            image: req.file.cloudStoragePublicUrl
         })
         .then(result => {
             res.status(200).json({message: 'Article successfully updated'})

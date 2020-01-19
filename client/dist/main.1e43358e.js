@@ -83566,6 +83566,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 name: 'dashboard';
 
 var _default = {
@@ -83577,7 +83590,8 @@ var _default = {
       title: '',
       content: '',
       category: '',
-      readOne: {}
+      readOne: {},
+      imageId: ''
     };
   },
   props: {
@@ -83603,7 +83617,9 @@ var _default = {
         headers: {
           access_token: access_token
         }
-      }).then(function (result) {
+      }).then(function (_ref) {
+        var data = _ref.data;
+        _this.imageId = data.id;
         _this.title = '';
         _this.content = '';
 
@@ -83611,7 +83627,7 @@ var _default = {
 
         _this.getArticles();
 
-        _this.onDashboard = 'viewDrafts';
+        _this.onDashboard = 'uploadImage';
       }).catch(function (err) {
         console.log(err);
       });
@@ -83624,8 +83640,8 @@ var _default = {
         headers: {
           access_token: localStorage.getItem('access_token')
         }
-      }).then(function (_ref) {
-        var data = _ref.data;
+      }).then(function (_ref2) {
+        var data = _ref2.data;
         console.log(data);
         _this2.drafts = data.result;
       }).catch(function (err) {
@@ -83640,8 +83656,8 @@ var _default = {
         headers: {
           access_token: localStorage.getItem('access_token')
         }
-      }).then(function (_ref2) {
-        var data = _ref2.data;
+      }).then(function (_ref3) {
+        var data = _ref3.data;
         console.log(data);
         _this3.articles = data.result;
       }).catch(function (err) {
@@ -83656,8 +83672,8 @@ var _default = {
         headers: {
           access_token: localStorage.getItem('access_token')
         }
-      }).then(function (_ref3) {
-        var data = _ref3.data;
+      }).then(function (_ref4) {
+        var data = _ref4.data;
         console.log(data);
 
         _this4.getArticles();
@@ -83679,8 +83695,8 @@ var _default = {
         headers: {
           access_token: access_token
         }
-      }).then(function (_ref4) {
-        var data = _ref4.data;
+      }).then(function (_ref5) {
+        var data = _ref5.data;
         console.log(data);
         _this5.onDashboard = 'viewPublished';
 
@@ -83698,13 +83714,38 @@ var _default = {
         headers: {
           access_token: localStorage.getItem('access_token')
         }
-      }).then(function (_ref5) {
-        var data = _ref5.data;
+      }).then(function (_ref6) {
+        var data = _ref6.data;
         console.log(data);
         _this6.readOne = data.result;
         _this6.onDashboard = 'readArticle';
       }).catch(function (err) {
         console.log(err);
+      });
+    },
+    fileChange: function fileChange(event) {
+      console.log(event.target.files[0], '<<>>');
+      this.image = event.target.files[0];
+    },
+    submitFile: function submitFile() {
+      var _this7 = this;
+
+      var formData = new FormData();
+      formData.append("image", this.image);
+      console.log(">> formData >> ", formData);
+      var articleId = this.imageId;
+      axios.post("http://localhost:3000/articles/upload/".concat(articleId), formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          access_token: localStorage.getItem('access_token')
+        }
+      }).then(function (_ref7) {
+        var data = _ref7.data;
+        _this7.resultimg = data;
+        console.log(data);
+        console.log("uploaded");
+      }).catch(function (err) {
+        console.log("failed");
       });
     }
   },
@@ -84152,6 +84193,51 @@ exports.default = _default;
             )
           : _vm._e(),
         _vm._v(" "),
+        _vm.onDashboard === "uploadImage"
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white",
+                attrs: { id: "uploadImage" }
+              },
+              [
+                _c(
+                  "form",
+                  {
+                    attrs: { method: "post", enctype: "multipart/form-data" },
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.submitFile($event)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "custom-file" }, [
+                      _c("input", {
+                        staticClass: "custom-file-input",
+                        attrs: { type: "file", id: "customFile" },
+                        on: { change: _vm.fileChange }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "custom-file-label",
+                          attrs: { for: "customFile" }
+                        },
+                        [_vm._v("Choose file")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(6)
+                  ]
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
         _vm.onDashboard === "readArticle"
           ? _c("div", { staticClass: "w-full" }, [
               _c(
@@ -84305,8 +84391,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "md:flex md:items-center" }, [
+    return _c("div", { staticClass: "md:flex" }, [
       _c("div", { staticClass: "md:w-1/3" }),
+      _vm._v(" "),
+      _c("br"),
       _vm._v(" "),
       _c("div", { staticClass: "md:w-2/3" }, [
         _c("input", {
@@ -84318,6 +84406,17 @@ var staticRenderFns = [
           "\n                            Save\n                      \n                    "
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mt-3" }, [
+      _c("input", {
+        staticClass: "form-control btn btn-warning",
+        attrs: { type: "submit" }
+      })
     ])
   }
 ]
@@ -85551,7 +85650,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36057" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41161" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

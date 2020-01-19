@@ -3,7 +3,7 @@ if (process.env.NODE_ENV === 'development') {
     
 }
 
-
+const logger = require('morgan')
 const express = require('express')
 const app = express()
 var mongoose = require('mongoose')
@@ -12,6 +12,7 @@ const cors = require('cors')
 const ATLAS_CONNECT = 'mongodb+srv://vaniairnanda:vaniairnanda@cluster0-snvnr.gcp.mongodb.net/mini-wp?retryWrites=true&w=majority'
 
 app.use(cors())
+app.use(logger('dev'))
 mongoose.connect('mongodb://localhost/miniwp', {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 
 var db = mongoose.connection
