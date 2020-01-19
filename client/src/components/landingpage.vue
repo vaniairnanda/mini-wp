@@ -25,7 +25,7 @@
 
               <div class="w-3/4 h-12 flex flex-wrap">
                 <div v-for="article in articles" :key="article._id" class="w-1/2 max-w-sm rounded overflow-hidden shadow-lg">
-                    <img class="w-full" :src="article.image" alt="Trump">
+                    <img class="w-full" :src="article.image" alt="blogimage">
                     <div class="px-6 py-4">
                       <div class="font-bold text-xl mb-2">{{article.category}}</div>
                       <p class="text-gray-700 text-base">
@@ -59,7 +59,7 @@ export default {
         },
         getArticles() {
             console.log('getArticles kepanggil')
-            axios.get('http://localhost:3000/articles', {
+            axios.get('http://35.197.145.19/articles', {
                 headers: {
                   access_token : localStorage.getItem('access_token')
                 }
@@ -75,6 +75,9 @@ export default {
   },
   created: function() {
      this.getArticles()
+  },
+  updated : function() {
+    this.getArticles()
   }
 }
 </script>

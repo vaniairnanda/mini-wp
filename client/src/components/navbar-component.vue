@@ -70,11 +70,11 @@ export default {
             // this.changePage('landingpage')
             this.$emit('change-page', 'landingpage') 
             localStorage.removeItem('access_token')
-             localStorage.removeItem('username')
+            localStorage.removeItem('username')
         },
         onSignIn(googleUser) {
         var id_token = googleUser.getAuthResponse().id_token;
-          axios.post('http://localhost:3000/users/google-sign-in', {
+          axios.post('http://35.197.145.19/users/google-sign-in', {
                   google_token: id_token
           }) 
                 .then(({data}) => {

@@ -38,7 +38,7 @@ export default {
     },
     getArticles() {
             console.log('getArticles kepanggil')
-            axios.get('http://localhost:3000/articles', {
+            axios.get('http://35.197.145.19/articles', {
                 headers: {
                   access_token : localStorage.getItem('access_token')
                 }
@@ -56,7 +56,7 @@ export default {
             localStorage.removeItem('access_token')
     },
      getDrafts() {
-            axios.get('http://localhost:3000/articles/drafts', {
+            axios.get('http://35.197.145.19/articles/drafts', {
                 headers: { 
                     access_token: localStorage.getItem('access_token')
                 }

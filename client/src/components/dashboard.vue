@@ -24,6 +24,10 @@
                     </div>
                 </div>
             </div>
+            
+            <div id='welcome' v-if="onDashboard === 'welcome'">
+              <img src="https://images-na.ssl-images-amazon.com/images/I/31WDC1Hi2AL._SX425_.jpg" alt="welcomecat">
+            </div>
 
             <div id='viewDrafts' v-if="onDashboard === 'viewDrafts'" class="w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white">
               <div v-for="draft in drafts" :key="draft._id" class="w-1/2 max-w-sm rounded overflow-hidden shadow-lg">
@@ -152,7 +156,7 @@ name: 'dashboard'
 export default {
     data() {
     return {
-      onDashboard : 'createArticles',
+      onDashboard : 'welcome',
       articles: [],
       drafts: [],
       title: '',
@@ -176,7 +180,7 @@ export default {
         postArticle(){
             let access_token = localStorage.getItem('access_token')
             console.log('masuk post article')
-            axios.post('http://localhost:3000/articles', {
+            axios.post('http://35.197.145.19/articles', {
                 title: this.title,
                 category: this.category,
                 content: this.content,
@@ -200,7 +204,7 @@ export default {
         },
         getDrafts() {
           console.log('masuk getDrafts')
-            axios.get('http://localhost:3000/articles/drafts', {
+            axios.get('http://35.197.145.19/articles/drafts', {
                 headers: { 
                     access_token: localStorage.getItem('access_token')
                 }
@@ -215,7 +219,7 @@ export default {
         },
         getArticles() {
           console.log('masuk published article')
-            axios.get('http://localhost:3000/articles',{
+            axios.get('http://35.197.145.19/articles',{
                 headers: { 
                     access_token: localStorage.getItem('access_token')
                 }
@@ -230,7 +234,7 @@ export default {
         },
         deleteItem(itemId) {
           console.log('masuk delete article')
-            axios.delete(`http://localhost:3000/articles/${itemId}`,{
+            axios.delete(`http://35.197.145.19/articles/${itemId}`,{
                 headers: { 
                     access_token: localStorage.getItem('access_token')
                 }
@@ -249,7 +253,7 @@ export default {
           console.log('masuk publish article')
           console.log(localStorage.getItem('access_token'))
           let access_token = localStorage.getItem('access_token')
-            axios.patch(`http://localhost:3000/articles/${itemId}`,  {
+            axios.patch(`http://35.197.145.19/articles/${itemId}`,  {
                 published: true
             },{
               headers : {
@@ -267,7 +271,7 @@ export default {
                  })
         },
         readArticle(itemId) {
-            axios.get(`http://localhost:3000/articles/${itemId}`,{
+            axios.get(`http://35.197.145.19/articles/${itemId}`,{
                 headers: { 
                     access_token: localStorage.getItem('access_token')
                 }
@@ -290,7 +294,7 @@ export default {
       formData.append("image", this.image);
       console.log(">> formData >> ", formData);
       let articleId = this.imageId
-      axios.post(`http://localhost:3000/articles/upload/${articleId}`, formData, {
+      axios.post(`http://35.197.145.19/articles/upload/${articleId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             access_token : localStorage.getItem('access_token')
@@ -299,6 +303,7 @@ export default {
           .then(({data})=> {
             this.resultimg = data
             this.onDashboard = 'viewDrafts'
+            this.getDrafts()
             console.log(data)
             console.log("uploaded");
           })
@@ -309,6 +314,11 @@ export default {
   },
   created : function() {
     this.getArticles()
+    this.getDrafts()
+    this.username = localStorage.getItem('username')
+  },
+  updated: function() {
+     this.getArticles()
     this.getDrafts()
     this.username = localStorage.getItem('username')
   }

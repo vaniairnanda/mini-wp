@@ -67,7 +67,7 @@ export default {
             this.$emit('change-page', page)
         },
         userRegister(){
-            axios.post('http://localhost:3000/users/register', {
+            axios.post('http://35.197.145.19/users/register', {
                 username: this.username,
                 email: this.email,
                 password: this.password
