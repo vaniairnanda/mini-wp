@@ -46,9 +46,7 @@ a:hover {
 
 }
 
-#headline {
-    margin-bottom: 10em;
-}
+
 .container {
     justify-content: space-between;
 }
@@ -65,13 +63,10 @@ a:hover {
 }
 .col-2 {
     text-align: center;
-    flex-basis: 60%;
+    flex-basis: 70%;
 }
 
-.col-3 {
-    text-align: center;
-    flex-basis: 10%;
-}
+
 
 .w-20 {
     margin-block-end : auto;

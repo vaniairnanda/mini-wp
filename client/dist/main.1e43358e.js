@@ -9414,14 +9414,13 @@ exports.default = void 0;
 //
 //
 //
-//
-//
-//
 name: 'landingpage';
 
 var _default = {
   data: function data() {
-    return {};
+    return {
+      articles: []
+    };
   },
   props: {
     currentPage: String
@@ -9429,7 +9428,26 @@ var _default = {
   methods: {
     changePage: function changePage(page) {
       this.$emit('change-page', page);
+    },
+    getArticles: function getArticles() {
+      var _this = this;
+
+      console.log('getArticles kepanggil');
+      axios.get('http://localhost:3000/articles', {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+        _this.articles = data.result;
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
+  },
+  created: function created() {
+    this.getArticles();
   }
 };
 exports.default = _default;
@@ -9506,21 +9524,28 @@ var staticRenderFns = [
       "div",
       { staticClass: "container flex mb-4", attrs: { id: "headline" } },
       [
-        _c("div", { staticClass: "w-full h-12 text-center text-black pb-16" }, [
-          _c("h1", { staticClass: "font-sans text-lg font-regular" }, [
-            _vm._v("Find a little pause.")
-          ]),
-          _vm._v(" "),
-          _c(
-            "h2",
-            { staticClass: "font-thin text-lg tracking-wide mt-2 mb-4" },
-            [
-              _vm._v(
-                "Discover your inner writer. Join +50,000 bloggers in our platform"
-              )
-            ]
-          )
-        ])
+        _c(
+          "div",
+          {
+            staticClass: "w-full h-12 text-center text-black pb-20",
+            attrs: { id: "tagline" }
+          },
+          [
+            _c("h1", { staticClass: "font-sans text-lg font-regular" }, [
+              _vm._v("Find a little pause.")
+            ]),
+            _vm._v(" "),
+            _c(
+              "h2",
+              { staticClass: "font-thin text-lg tracking-wide mt-2 mb-4" },
+              [
+                _vm._v(
+                  "Discover your inner writer. Join +50,000 bloggers in our platform"
+                )
+              ]
+            )
+          ]
+        )
       ]
     )
   },
@@ -9532,21 +9557,19 @@ var staticRenderFns = [
       "div",
       { staticClass: "container flex mb-4", attrs: { id: "overview" } },
       [
-        _c("div", { staticClass: "col-1 w-1/3 h-12" }, [
+        _c("div", { staticClass: "col-1 w-1/4 h-12" }, [
           _c("h1", { staticClass: "font-sans text-lg font-regular" }, [
             _vm._v("Blog Highlights")
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-2 w-1/3 h-12" }, [
+        _c("div", { staticClass: "col-2 w-3/4 h-12" }, [
           _c("input", {
             staticClass:
               "w-full h-12 px-3 rounded mb-4 focus:outline-none focus:shadow-outline text-xl px-8 shadow-lg",
             attrs: { type: "search", placeholder: "Search..." }
           })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-3 w-1/3 h-12" })
+        ])
       ]
     )
   },
@@ -10356,7 +10379,8 @@ var _default = {
     return {
       message: 'Hello world',
       currentPage: 'landingpage',
-      onDashboard: 'createArticle'
+      onDashboard: 'createArticle',
+      articles: []
     };
   },
   components: {
@@ -10369,12 +10393,30 @@ var _default = {
   methods: {
     changePage: function changePage(page) {
       this.currentPage = page;
+    },
+    getArticles: function getArticles() {
+      var _this = this;
+
+      console.log('getArticles kepanggil');
+      axios.get('http://localhost:3000/articles', {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+        _this.articles = data.result;
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
   created: function created() {
     if (localStorage.getItem('access_token')) {
       this.currentPage = 'dashboard';
     }
+
+    this.getArticles();
   }
 };
 exports.default = _default;
@@ -10496,7 +10538,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35569" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44291" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

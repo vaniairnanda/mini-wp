@@ -20,7 +20,8 @@ export default {
     return {
       message: 'Hello world',
       currentPage: 'landingpage',
-      onDashboard: 'createArticle'
+      onDashboard: 'createArticle',
+      articles: []
     };
   },
   components: {
@@ -33,12 +34,28 @@ export default {
   methods : {
     changePage(page) {
       this.currentPage = page
-    }
+    },
+    getArticles() {
+            console.log('getArticles kepanggil')
+            axios.get('http://localhost:3000/articles', {
+                headers: {
+                  access_token : localStorage.getItem('access_token')
+                }
+            })
+                 .then(({ data }) => {
+                     console.log(data)
+                     this.articles = data.result
+                 })
+                 .catch(err => {
+                     console.log(err)
+                 })
+    },
   },
   created: function(){
     if(localStorage.getItem('access_token')){
         this.currentPage = 'dashboard'
     }
+    this.getArticles()
   }
 };
 </script>

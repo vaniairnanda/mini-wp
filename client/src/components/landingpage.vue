@@ -1,20 +1,17 @@
 <template>
 <div v-if="currentPage === 'landingpage'"> 
  <div id="headline" class="container flex mb-4">
-        <div class="w-full h-12 text-center text-black pb-16">
+        <div id="tagline" class="w-full h-12 text-center text-black pb-20">
             <h1 class="font-sans text-lg font-regular">Find a little pause.</h1>
             <h2 class="font-thin text-lg tracking-wide mt-2 mb-4">Discover your inner writer. Join +50,000 bloggers in our platform</h2>
         </div>
 </div>
 
 <div id="overview" class="container flex mb-4">
-            <div class="col-1 w-1/3 h-12">
+            <div class="col-1 w-1/4 h-12">
               <h1  class="font-sans text-lg font-regular">Blog Highlights</h1></div>
-            <div class="col-2 w-1/3 h-12">
+            <div class="col-2 w-3/4 h-12">
               <input class="w-full h-12 px-3 rounded mb-4 focus:outline-none focus:shadow-outline text-xl px-8 shadow-lg" type="search" placeholder="Search...">
-            </div>
-            <div class="col-3 w-1/3 h-12">
-                    
             </div>
 </div>
 
@@ -50,6 +47,7 @@ name: 'landingpage'
 export default {
      data() {
     return {
+      articles: []
     };
   },
   props: {
@@ -58,12 +56,39 @@ export default {
   methods : {
        changePage(page) {
             this.$emit('change-page', page)
-        }
+        },
+        getArticles() {
+            console.log('getArticles kepanggil')
+            axios.get('http://localhost:3000/articles', {
+                headers: {
+                  access_token : localStorage.getItem('access_token')
+                }
+            })
+                 .then(({ data }) => {
+                     console.log(data)
+                     this.articles = data.result
+                 })
+                 .catch(err => {
+                     console.log(err)
+                 })
+        },
+  },
+  created: function() {
+     this.getArticles()
   }
 }
 </script>
 
 
 <style>
+#headline {
+  background-image: url('https://cdn.pixabay.com/photo/2016/08/05/09/31/banner-1571858__340.jpg');
+  height: 15em;
+}
+
+#tagline {
+  padding-top: 5em;
+}
+
 
 </style>
