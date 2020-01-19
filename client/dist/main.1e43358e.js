@@ -9494,7 +9494,11 @@ var _default = {
         _this.title = '';
         _this.content = '';
 
-        _this.$emit('change-page', 'dashboard');
+        _this.getDrafts();
+
+        _this.getArticles();
+
+        _this.onDashboard = 'viewDrafts';
       }).catch(function (err) {
         console.log(err);
       });
@@ -9502,8 +9506,11 @@ var _default = {
     getDrafts: function getDrafts() {
       var _this2 = this;
 
+      console.log('masuk getDrafts');
       axios.get('http://localhost:3000/articles/drafts', {
-        headers: localStorage.getItem('access_token')
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
       }).then(function (_ref) {
         var data = _ref.data;
         console.log(data);
@@ -9515,8 +9522,11 @@ var _default = {
     getArticles: function getArticles() {
       var _this3 = this;
 
+      console.log('masuk published article');
       axios.get('http://localhost:3000/articles', {
-        headers: localStorage.getItem('access_token')
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
       }).then(function (_ref2) {
         var data = _ref2.data;
         console.log(data);
@@ -11143,7 +11153,8 @@ var _default = {
     return {
       message: 'Hello world',
       currentPage: 'landingpage',
-      articles: []
+      articles: [],
+      drafts: []
     };
   },
   components: {
@@ -11176,6 +11187,21 @@ var _default = {
     userLogout: function userLogout() {
       this.currentPage = 'landingpage';
       localStorage.removeItem('access_token');
+    },
+    getDrafts: function getDrafts() {
+      var _this2 = this;
+
+      axios.get('http://localhost:3000/articles/drafts', {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      }).then(function (_ref2) {
+        var data = _ref2.data;
+        console.log(data);
+        _this2.drafts = data.result;
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   },
   created: function created() {
@@ -11184,6 +11210,7 @@ var _default = {
     }
 
     this.getArticles();
+    this.getDrafts();
   }
 };
 exports.default = _default;
@@ -11202,10 +11229,12 @@ exports.default = _default;
   return _c(
     "div",
     [
-      _c("navbar", {
-        attrs: { currentPage: _vm.currentPage },
-        on: { "change-page": _vm.changePage }
-      }),
+      _vm.currentPage !== "loginform"
+        ? _c("navbar", {
+            attrs: { currentPage: _vm.currentPage },
+            on: { "change-page": _vm.changePage }
+          })
+        : _vm._e(),
       _vm._v(" "),
       _c("landingpage", {
         attrs: { currentPage: _vm.currentPage },
@@ -11305,7 +11334,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46439" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34803" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

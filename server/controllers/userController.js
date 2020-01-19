@@ -26,7 +26,7 @@ class userController {
                    let checkPassword = bcrypt.compareSync(req.body.password, result.password)
                    if (checkPassword) {
                        let access_token = jwt.sign({ id: result._id}, process.env.SECRET)
-                       console.log(access_token)
+                       console.log(access_token, 'masuk login')
                        res.status(200).json({access_token : access_token})
                    } else {
                        next({name:'Bad request', statusCode:'400', message: 'Email/Password wrong'})

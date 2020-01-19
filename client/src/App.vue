@@ -1,6 +1,6 @@
 <template>
 <div> 
-  <navbar v-on:change-page="changePage" :currentPage="currentPage"></navbar>
+  <navbar v-if="currentPage !== 'loginform'" v-on:change-page="changePage" :currentPage="currentPage"></navbar>
  <landingpage v-on:change-page="changePage" :currentPage="currentPage" ></landingpage>
   <dashboard v-on:change-page="changePage" :currentPage="currentPage"></dashboard>
   <loginform  v-on:change-page="changePage" :currentPage="currentPage"></loginform>
@@ -20,7 +20,8 @@ export default {
     return {
       message: 'Hello world',
       currentPage: 'landingpage',
-      articles: []
+      articles: [],
+      drafts: []
     };
   },
   components: {
@@ -53,12 +54,27 @@ export default {
             this.currentPage = 'landingpage'
             localStorage.removeItem('access_token')
     },
+     getDrafts() {
+            axios.get('http://localhost:3000/articles/drafts', {
+                headers: { 
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .then(({ data }) => {
+                console.log(data)
+                this.drafts = data.result
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    },
   },
   created: function(){
     if(localStorage.getItem('access_token')){
         this.currentPage = 'dashboard'
     }
     this.getArticles()
+    this.getDrafts()
   }
 };
 </script>

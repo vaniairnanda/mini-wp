@@ -166,7 +166,9 @@ export default {
             .then(result => {
                 this.title = ''
                 this.content = ''
-                this.$emit('change-page', 'dashboard')
+                this.getDrafts()
+                this.getArticles()
+                this.onDashboard = 'viewDrafts'
             })
             .catch(err => {
                 console.log(err)
@@ -174,8 +176,11 @@ export default {
             
         },
         getDrafts() {
+          console.log('masuk getDrafts')
             axios.get('http://localhost:3000/articles/drafts', {
-                headers: localStorage.getItem('access_token')
+                headers: { 
+                    access_token: localStorage.getItem('access_token')
+                }
             })
             .then(({ data }) => {
                 console.log(data)
@@ -186,8 +191,11 @@ export default {
             })
         },
         getArticles() {
-            axios.get('http://localhost:3000/articles', {
-                headers: localStorage.getItem('access_token')
+          console.log('masuk published article')
+            axios.get('http://localhost:3000/articles',{
+                headers: { 
+                    access_token: localStorage.getItem('access_token')
+                }
             })
                  .then(({ data }) => {
                      console.log(data)
