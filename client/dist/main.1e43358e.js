@@ -8941,6 +8941,16 @@ exports.default = void 0;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 name: 'navbar';
 
 var _default = {
@@ -8953,6 +8963,12 @@ var _default = {
   methods: {
     changePage: function changePage(page) {
       this.$emit('change-page', page);
+    },
+    userLogout: function userLogout() {
+      console.log('masuk user logout'); // this.changePage('landingpage')
+
+      this.$emit('change-page', 'landingpage');
+      localStorage.removeItem('access_token');
     }
   }
 };
@@ -9025,49 +9041,73 @@ exports.default = _default;
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "w-1/3 h-12" }, [
-        _c("ul", { staticClass: "flex" }, [
-          _c("li", { staticClass: "mr-6" }, [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "bg-white hover:bg-text-black font-bold py-2 px-2 rounded-full",
-                on: {
-                  click: function($event) {
-                    return _vm.changePage("loginform")
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                       Login\n                       "
+      _vm.currentPage === "landingpage"
+        ? _c("div", { staticClass: "w-1/3 h-12" }, [
+            _c("ul", { staticClass: "flex" }, [
+              _c("li", { staticClass: "mr-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "bg-white hover:bg-text-black font-bold py-2 px-2 rounded-full",
+                    on: {
+                      click: function($event) {
+                        return _vm.changePage("loginform")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                       Login\n                       "
+                    )
+                  ]
                 )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "mr-6" }, [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "bg-black hover:bg-black text-white font-bold py-1 px-2 rounded-full",
-                on: {
-                  click: function($event) {
-                    return _vm.changePage("signupform")
-                  }
-                }
-              },
-              [
-                _vm._v(
-                  "\n                       Sign Up\n                       "
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "mr-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "bg-black hover:bg-black text-white font-bold py-1 px-2 rounded-full",
+                    on: {
+                      click: function($event) {
+                        return _vm.changePage("signupform")
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                       Sign Up\n                       "
+                    )
+                  ]
                 )
-              ]
-            )
+              ])
+            ])
           ])
-        ])
-      ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.currentPage === "dashboard"
+        ? _c("div", { staticClass: "w-1/3 h-12" }, [
+            _c("ul", { staticClass: "flex" }, [
+              _c("li", { staticClass: "mr-6" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "bg-black hover:bg-black text-white font-bold py-1 px-2 rounded-full",
+                    on: { click: _vm.userLogout }
+                  },
+                  [
+                    _vm._v(
+                      "\n                       Sign Out\n                     "
+                    )
+                  ]
+                )
+              ])
+            ])
+          ])
+        : _vm._e()
     ]),
     _vm._v("\n                       " + _vm._s(_vm.currentPage) + "\n ")
   ])
@@ -9124,6 +9164,155 @@ render._withStripped = true
       
       }
     })();
+},{"_css_loader":"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/view-drafts.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+name: 'viewdrafts';
+
+var _default = {
+  data: function data() {
+    return {
+      drafts: []
+    };
+  },
+  props: {
+    currentPage: String,
+    onDashboard: String
+  },
+  methods: {
+    getDrafts: function getDrafts() {
+      var _this = this;
+
+      axios.get('http://localhost:3000/articles/drafts', {
+        headers: localStorage.getItem('access_token')
+      }).then(function (_ref) {
+        var data = _ref.data;
+        console.log(data);
+        _this.drafts = data.result;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  },
+  created: function created() {
+    this.getDrafts();
+  }
+};
+exports.default = _default;
+        var $5cd01c = exports.default || module.exports;
+      
+      if (typeof $5cd01c === 'function') {
+        $5cd01c = $5cd01c.options;
+      }
+    
+        /* template */
+        Object.assign($5cd01c, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass:
+        "w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white",
+      attrs: { id: "viewDrafts" }
+    },
+    _vm._l(_vm.drafts, function(draft) {
+      return _c(
+        "div",
+        {
+          key: draft._id,
+          staticClass: "w-1/2 max-w-sm rounded overflow-hidden shadow-lg"
+        },
+        [
+          _c("img", {
+            staticClass: "w-full",
+            attrs: {
+              src:
+                "https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg",
+              alt: "Trump"
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "px-6 py-4" }, [
+            _c("div", { staticClass: "font-bold text-xl mb-2" }, [
+              _vm._v(_vm._s(draft.category))
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "text-gray-700 text-base" }, [
+              _vm._v(
+                "\n                   " +
+                  _vm._s(draft.title) +
+                  "\n                 "
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "text-gray-700 text-base" }, [
+              _vm._v(" by " + _vm._s(draft.userId.username))
+            ])
+          ])
+        ]
+      )
+    }),
+    0
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$5cd01c', $5cd01c);
+          } else {
+            api.reload('$5cd01c', $5cd01c);
+          }
+        }
+
+        
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+      }
+    })();
 },{"_css_loader":"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/dashboard.vue":[function(require,module,exports) {
 "use strict";
 
@@ -9132,6 +9321,109 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _viewDrafts = _interopRequireDefault(require("./view-drafts"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9166,30 +9458,77 @@ name: 'dashboard';
 
 var _default = {
   data: function data() {
-    return {};
+    return {
+      onDashboard: 'createArticles',
+      articles: [],
+      drafts: [],
+      title: '',
+      content: '',
+      category: ''
+    };
   },
   props: {
-    currentPage: String,
-    onDashboard: String
+    currentPage: String
+  },
+  components: {
+    viewDrafts: _viewDrafts.default
   },
   methods: {
     changePage: function changePage(page) {
       this.$emit('change-page', page);
     },
-    userRegister: function userRegister() {
+    postArticle: function postArticle() {
       var _this = this;
 
-      axios.post('http://localhost:3000/users/register', {
-        username: this.username,
-        email: this.email,
-        password: this.password
+      var access_token = localStorage.getItem('access_token');
+      console.log('masuk post article');
+      axios.post('http://localhost:3000/articles', {
+        title: this.title,
+        category: this.category,
+        content: this.content
+      }, {
+        headers: {
+          access_token: access_token
+        }
+      }).then(function (result) {
+        _this.title = '';
+        _this.content = '';
+
+        _this.$emit('change-page', 'dashboard');
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    getDrafts: function getDrafts() {
+      var _this2 = this;
+
+      axios.get('http://localhost:3000/articles/drafts', {
+        headers: localStorage.getItem('access_token')
       }).then(function (_ref) {
         var data = _ref.data;
-        _this.currentPage = 'loginform';
+        console.log(data);
+        _this2.drafts = data.result;
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    getArticles: function getArticles() {
+      var _this3 = this;
+
+      axios.get('http://localhost:3000/articles', {
+        headers: localStorage.getItem('access_token')
+      }).then(function (_ref2) {
+        var data = _ref2.data;
+        console.log(data);
+        _this3.articles = data.result;
       }).catch(function (err) {
         console.log(err);
       });
     }
+  },
+  created: function created() {
+    this.getArticles();
+    this.getDrafts();
   }
 };
 exports.default = _default;
@@ -9296,7 +9635,275 @@ exports.default = _default;
               ])
             ]
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _vm.onDashboard === "viewDrafts"
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white",
+                attrs: { id: "viewDrafts" }
+              },
+              _vm._l(_vm.drafts, function(draft) {
+                return _c(
+                  "div",
+                  {
+                    key: draft._id,
+                    staticClass:
+                      "w-1/2 max-w-sm rounded overflow-hidden shadow-lg"
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "w-full",
+                      attrs: {
+                        src:
+                          "https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg",
+                        alt: "Trump"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "px-6 py-4" }, [
+                      _c("div", { staticClass: "font-bold text-xl mb-2" }, [
+                        _vm._v(_vm._s(draft.category))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "text-gray-700 text-base" }, [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(draft.title) +
+                            "\n              "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "text-gray-700 text-base" }, [
+                        _vm._v(" by " + _vm._s(draft.userId.username))
+                      ])
+                    ])
+                  ]
+                )
+              }),
+              0
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.onDashboard === "viewPublished"
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "w-1/2 flex flex-wrap p-8 mt-6 lg:mt-0 rounded shadow bg-white",
+                attrs: { id: "viewPublished" }
+              },
+              _vm._l(_vm.articles, function(article) {
+                return _c(
+                  "div",
+                  {
+                    key: article._id,
+                    staticClass:
+                      "w-1/2 max-w-sm rounded overflow-hidden shadow-lg"
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "w-full",
+                      attrs: {
+                        src:
+                          "https://media.newyorker.com/photos/5e18e202b64dda0008cd2360/4:3/w_300,c_limit/200120_r35365web-tout.jpg",
+                        alt: "Trump"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "px-6 py-4" }, [
+                      _c("div", { staticClass: "font-bold text-xl mb-2" }, [
+                        _vm._v(_vm._s(article.category))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "text-gray-700 text-base" }, [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(article.title) +
+                            "\n              "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "text-gray-700 text-base" }, [
+                        _vm._v(" by " + _vm._s(article.userId.username))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "text-gray-700 text-base" }, [
+                        _vm._v(" created at: " + _vm._s(article.created_at))
+                      ])
+                    ])
+                  ]
+                )
+              }),
+              0
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.onDashboard === "createArticle"
+          ? _c(
+              "div",
+              {
+                staticClass:
+                  "w-1/2 flex p-8 mt-6 lg:mt-0 rounded shadow bg-white",
+                attrs: { id: "createArticle" }
+              },
+              [
+                _c("div", { staticClass: "w-full" }, [
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.postArticle($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-2/3" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.title,
+                              expression: "title"
+                            }
+                          ],
+                          staticClass:
+                            "form-input block w-full focus:bg-gray-200",
+                          attrs: {
+                            id: "title",
+                            type: "text",
+                            value: "",
+                            placeholder: "Your title goes here........."
+                          },
+                          domProps: { value: _vm.title },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.title = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "py-2 text-sm text-gray-600" }, [
+                          _vm._v("Title")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-full flex mb-6" }, [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "w-1/3" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.category,
+                                  expression: "category"
+                                }
+                              ],
+                              staticClass:
+                                "form-select block w-full focus:bg-white",
+                              attrs: { name: "category", id: "my-select" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.category = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            [
+                              _c("option", { attrs: { value: "food" } }, [
+                                _vm._v("Food")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "health" } }, [
+                                _vm._v("Health")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "beauty" } }, [
+                                _vm._v("Beauty")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "others" } }, [
+                                _vm._v("Others")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            { staticClass: "py-2 text-sm text-gray-600" },
+                            [_vm._v("Pick your article category")]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "w-3/4 flex mb-6" }, [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "w-2/3" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.content,
+                                expression: "content"
+                              }
+                            ],
+                            staticClass:
+                              "form-textarea block w-full focus:bg-white",
+                            attrs: { id: "my-textarea", value: "", rows: "30" },
+                            domProps: { value: _vm.content },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.content = $event.target.value
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "p",
+                            { staticClass: "py-2 text-sm text-gray-600" },
+                            [_vm._v("add your article here")]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(5)
+                    ]
+                  )
+                ])
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._m(6)
       ])
     : _vm._e()
 }
@@ -9327,6 +9934,163 @@ var staticRenderFns = [
       _c("p", { staticClass: "mt-2 font-sans font-light text-grey-dark" }, [
         _vm._v("Hello, i'm from the other side!")
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold bg:grey mb-3 md:mb-0 pr-4",
+          attrs: { for: "my-textfield" }
+        },
+        [
+          _vm._v(
+            "\n                            Title\n                        "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4",
+          attrs: { for: "my-select" }
+        },
+        [
+          _vm._v(
+            "\n                            Category\n                        "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "label",
+        {
+          staticClass:
+            "block text-gray-600 font-bold md:text-left mb-3 md:mb-0 pr-4",
+          attrs: { for: "my-textarea" }
+        },
+        [
+          _vm._v(
+            "\n                            Content\n                        "
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "md:flex md:items-center" }, [
+      _c("div", { staticClass: "md:w-1/3" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "md:w-2/3" }, [
+        _c("input", {
+          staticClass:
+            "shadow bg-orange-700 hover:bg-orange-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded",
+          attrs: { type: "submit" }
+        }),
+        _vm._v(
+          "\n                            Save\n                      \n                    "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-1/3" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "font-sans flex items-center justify-center bg-blue-darker w-full py-8"
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "overflow-hidden bg-white rounded max-w-xs w-full shadow-lg  leading-normal"
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "block group hover:bg-blue p-4 border-b",
+                  attrs: { href: "#" }
+                },
+                [
+                  _c(
+                    "p",
+                    {
+                      staticClass:
+                        "font-bold text-lg mb-1 text-black group-hover:text-white"
+                    },
+                    [_vm._v("Blog Title")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    {
+                      staticClass:
+                        "text-grey-darker mb-2 group-hover:text-white"
+                    },
+                    [_vm._v("Summary of blog")]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "block group hover:bg-blue p-4",
+                  attrs: { href: "#" }
+                },
+                [
+                  _c(
+                    "p",
+                    {
+                      staticClass:
+                        "font-bold text-lg mb-1 text-black group-hover:text-white"
+                    },
+                    [_vm._v("Blog Title")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    {
+                      staticClass:
+                        "text-grey-darker mb-2 group-hover:text-white"
+                    },
+                    [_vm._v("Summary of blog")]
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      )
     ])
   }
 ]
@@ -9362,7 +10126,7 @@ render._withStripped = true
       
       }
     })();
-},{"_css_loader":"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/landingpage.vue":[function(require,module,exports) {
+},{"./view-drafts":"src/components/view-drafts.vue","_css_loader":"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/landingpage.vue":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -10379,7 +11143,6 @@ var _default = {
     return {
       message: 'Hello world',
       currentPage: 'landingpage',
-      onDashboard: 'createArticle',
       articles: []
     };
   },
@@ -10409,6 +11172,10 @@ var _default = {
       }).catch(function (err) {
         console.log(err);
       });
+    },
+    userLogout: function userLogout() {
+      this.currentPage = 'landingpage';
+      localStorage.removeItem('access_token');
     }
   },
   created: function created() {
@@ -10538,7 +11305,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44291" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46439" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

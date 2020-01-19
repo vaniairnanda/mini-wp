@@ -20,7 +20,6 @@ export default {
     return {
       message: 'Hello world',
       currentPage: 'landingpage',
-      onDashboard: 'createArticle',
       articles: []
     };
   },
@@ -49,6 +48,10 @@ export default {
                  .catch(err => {
                      console.log(err)
                  })
+    },
+    userLogout() {
+            this.currentPage = 'landingpage'
+            localStorage.removeItem('access_token')
     },
   },
   created: function(){

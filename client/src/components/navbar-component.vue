@@ -20,7 +20,7 @@
                       </li>
                     </ul>
                   </div>
-                  <div class="w-1/3 h-12">
+                  <div v-if="currentPage === 'landingpage'" class="w-1/3 h-12">
                     <ul class="flex">
                         <li class="mr-6">
                           <button @click="changePage('loginform')" class="bg-white hover:bg-text-black font-bold py-2 px-2 rounded-full">
@@ -34,6 +34,16 @@
                         </li>
                     </ul>
                   </div>
+                   
+                  <div v-if="currentPage === 'dashboard'" class="w-1/3 h-12">
+                    <ul class="flex">
+                      <li class="mr-6">
+                        <button @click="userLogout" class="bg-black hover:bg-black text-white font-bold py-1 px-2 rounded-full">
+                          Sign Out
+                        </button>
+                      </li>
+                    </ul>
+                  </div> 
                 </div>
                           {{currentPage}}
     </nav>
@@ -57,7 +67,14 @@ export default {
   methods : {
        changePage(page) {
             this.$emit('change-page', page)
-        }
+        },       
+        userLogout() {
+          console.log('masuk user logout')
+            // this.changePage('landingpage')
+            this.$emit('change-page', 'landingpage') 
+            localStorage.removeItem('access_token')
+        },
+
   }
 };
 </script>
