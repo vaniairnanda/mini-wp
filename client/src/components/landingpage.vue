@@ -46,6 +46,7 @@
 
 
 <script>
+name: 'landingpage'
 export default {
      data() {
     return {

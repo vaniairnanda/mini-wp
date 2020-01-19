@@ -4,6 +4,7 @@
  <landingpage v-on:change-page="changePage" :currentPage="currentPage" ></landingpage>
   <dashboard v-on:change-page="changePage" :currentPage="currentPage"></dashboard>
   <loginform  v-on:change-page="changePage" :currentPage="currentPage"></loginform>
+  <signupform v-on:change-page="changePage" :currentPage="currentPage"> </signupform>
 </div>
  
 </template>
@@ -13,6 +14,7 @@ import navbar from "./components/navbar-component"
 import dashboard from "./components/dashboard"
 import landingpage from "./components/landingpage"
 import loginform from "./components/loginpage"
+import signupform from "./components/signupform"
 export default {
   data() {
     return {
@@ -25,7 +27,8 @@ export default {
     navbar,
     dashboard,
     landingpage,
-    loginform   
+    loginform,
+    signupform   
   },
   methods : {
     changePage(page) {

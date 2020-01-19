@@ -16,6 +16,7 @@
 
 
 <script>
+name: 'viewdrafts'
 export default {
     
 }

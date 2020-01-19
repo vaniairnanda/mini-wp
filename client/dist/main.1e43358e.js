@@ -9131,6 +9131,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
 //
 //
 //
@@ -9161,6 +9162,8 @@ exports.default = void 0;
 //
 //
 //
+name: 'dashboard';
+
 var _default = {
   data: function data() {
     return {};
@@ -9172,6 +9175,20 @@ var _default = {
   methods: {
     changePage: function changePage(page) {
       this.$emit('change-page', page);
+    },
+    userRegister: function userRegister() {
+      var _this = this;
+
+      axios.post('http://localhost:3000/users/register', {
+        username: this.username,
+        email: this.email,
+        password: this.password
+      }).then(function (_ref) {
+        var data = _ref.data;
+        _this.currentPage = 'loginform';
+      }).catch(function (err) {
+        console.log(err);
+      });
     }
   }
 };
@@ -9352,6 +9369,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
 //
 //
 //
@@ -9399,6 +9417,8 @@ exports.default = void 0;
 //
 //
 //
+name: 'landingpage';
+
 var _default = {
   data: function data() {
     return {};
@@ -9588,6 +9608,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
 //
 //
 //
@@ -9662,6 +9683,8 @@ exports.default = void 0;
 //
 //
 //
+name: 'loginform';
+
 var _default = {
   data: function data() {
     return {
@@ -9944,6 +9967,359 @@ render._withStripped = true
       
       }
     })();
+},{"_css_loader":"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/components/signupform.vue":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+name: 'signupform';
+
+var _default = {
+  data: function data() {
+    return {
+      email: '',
+      password: '',
+      username: ''
+    };
+  },
+  props: {
+    currentPage: String
+  },
+  methods: {
+    changePage: function changePage(page) {
+      this.$emit('change-page', page);
+    },
+    userRegister: function userRegister() {
+      var _this = this;
+
+      axios.post('http://localhost:3000/users/register', {
+        username: this.username,
+        email: this.email,
+        password: this.password
+      }).then(function (_ref) {
+        var data = _ref.data;
+
+        _this.changePage('loginform');
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }
+};
+exports.default = _default;
+        var $478fa8 = exports.default || module.exports;
+      
+      if (typeof $478fa8 === 'function') {
+        $478fa8 = $478fa8.options;
+      }
+    
+        /* template */
+        Object.assign($478fa8, (function () {
+          var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.currentPage === "signupform"
+    ? _c(
+        "div",
+        {
+          staticClass: "flex bg-grey-lighter min-h-screen flex flex-col",
+          staticStyle: { "align-items": "center" }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2"
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "bg-white px-6 py-8 rounded shadow-md text-black w-full"
+                },
+                [
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.userRegister($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("h1", { staticClass: "mb-8 text-3xl text-center" }, [
+                        _vm._v("Sign up")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.username,
+                            expression: "username"
+                          }
+                        ],
+                        staticClass:
+                          "block border border-grey-light w-full p-3 rounded mb-4",
+                        attrs: {
+                          type: "text",
+                          name: "fullname",
+                          placeholder: "Full Name"
+                        },
+                        domProps: { value: _vm.username },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.username = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.email,
+                            expression: "email"
+                          }
+                        ],
+                        staticClass:
+                          "block border border-grey-light w-full p-3 rounded mb-4",
+                        attrs: {
+                          type: "text",
+                          name: "email",
+                          placeholder: "Email"
+                        },
+                        domProps: { value: _vm.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.email = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.password,
+                            expression: "password"
+                          }
+                        ],
+                        staticClass:
+                          "block border border-grey-light w-full p-3 rounded mb-4",
+                        attrs: {
+                          type: "password",
+                          name: "password",
+                          placeholder: "Password"
+                        },
+                        domProps: { value: _vm.password },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.password = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "w-full text-center py-3 rounded bg-black text-white hover:bg-green-dark focus:outline-none my-1",
+                          attrs: { type: "submit" },
+                          on: { click: _vm.userRegister }
+                        },
+                        [_vm._v("Create Account")]
+                      ),
+                      _vm._v(" "),
+                      _vm._m(0)
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  staticClass: "text-grey-dark mt-6",
+                  on: {
+                    click: function($event) {
+                      return _vm.changePage("signupform")
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                           Already have an account? \n                           "
+                  ),
+                  _c(
+                    "button",
+                    {
+                      on: {
+                        click: function($event) {
+                          return _vm.changePage("signupform")
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                           Login\n                           "
+                      )
+                    ]
+                  )
+                ]
+              )
+            ]
+          )
+        ]
+      )
+    : _vm._e()
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "text-center text-sm text-grey-dark mt-4" },
+      [
+        _vm._v(
+          "\n                               By signing up, you agree to the \n                               "
+        ),
+        _c(
+          "a",
+          {
+            staticClass:
+              "no-underline border-b border-grey-dark text-grey-dark",
+            attrs: { href: "#" }
+          },
+          [
+            _vm._v(
+              "\n                                   Terms of Service\n                               "
+            )
+          ]
+        ),
+        _vm._v(" and \n                               "),
+        _c(
+          "a",
+          {
+            staticClass:
+              "no-underline border-b border-grey-dark text-grey-dark",
+            attrs: { href: "#" }
+          },
+          [
+            _vm._v(
+              "\n                                   Privacy Policy\n                               "
+            )
+          ]
+        )
+      ]
+    )
+  }
+]
+render._withStripped = true
+
+          return {
+            render: render,
+            staticRenderFns: staticRenderFns,
+            _compiled: true,
+            _scopeId: null,
+            functional: undefined
+          };
+        })());
+      
+    /* hot reload */
+    (function () {
+      if (module.hot) {
+        var api = require('vue-hot-reload-api');
+        api.install(require('vue'));
+        if (api.compatible) {
+          module.hot.accept();
+          if (!module.hot.data) {
+            api.createRecord('$478fa8', $478fa8);
+          } else {
+            api.reload('$478fa8', $478fa8);
+          }
+        }
+
+        
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+      }
+    })();
 },{"_css_loader":"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/App.vue":[function(require,module,exports) {
 "use strict";
 
@@ -9960,8 +10336,11 @@ var _landingpage = _interopRequireDefault(require("./components/landingpage"));
 
 var _loginpage = _interopRequireDefault(require("./components/loginpage"));
 
+var _signupform = _interopRequireDefault(require("./components/signupform"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
 //
 //
 //
@@ -9984,7 +10363,8 @@ var _default = {
     navbar: _navbarComponent.default,
     dashboard: _dashboard.default,
     landingpage: _landingpage.default,
-    loginform: _loginpage.default
+    loginform: _loginpage.default,
+    signupform: _signupform.default
   },
   methods: {
     changePage: function changePage(page) {
@@ -10031,6 +10411,11 @@ exports.default = _default;
       _c("loginform", {
         attrs: { currentPage: _vm.currentPage },
         on: { "change-page": _vm.changePage }
+      }),
+      _vm._v(" "),
+      _c("signupform", {
+        attrs: { currentPage: _vm.currentPage },
+        on: { "change-page": _vm.changePage }
       })
     ],
     1
@@ -10069,7 +10454,7 @@ render._withStripped = true
       
       }
     })();
-},{"./components/navbar-component":"src/components/navbar-component.vue","./components/dashboard":"src/components/dashboard.vue","./components/landingpage":"src/components/landingpage.vue","./components/loginpage":"src/components/loginpage.vue","_css_loader":"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/main.js":[function(require,module,exports) {
+},{"./components/navbar-component":"src/components/navbar-component.vue","./components/dashboard":"src/components/dashboard.vue","./components/landingpage":"src/components/landingpage.vue","./components/loginpage":"src/components/loginpage.vue","./components/signupform":"src/components/signupform.vue","_css_loader":"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/css-loader.js","vue-hot-reload-api":"node_modules/vue-hot-reload-api/dist/index.js","vue":"node_modules/vue/dist/vue.runtime.esm.js"}],"src/main.js":[function(require,module,exports) {
 "use strict";
 
 var _vue = _interopRequireDefault(require("vue"));
@@ -10111,7 +10496,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37565" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35569" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

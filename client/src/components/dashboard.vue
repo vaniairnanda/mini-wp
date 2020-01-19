@@ -29,6 +29,7 @@
 
 
 <script>
+name: 'dashboard'
 export default {
     data() {
     return {
@@ -42,7 +43,20 @@ export default {
   methods : {
        changePage(page) {
             this.$emit('change-page', page)
-        }
+        },
+        userRegister(){
+            axios.post('http://localhost:3000/users/register', {
+                username: this.username,
+                email: this.email,
+                password: this.password
+            })
+            .then(({data}) => {
+                this.currentPage = 'loginform'
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        },
   }
     
 }

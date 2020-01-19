@@ -73,6 +73,7 @@
 
 
 <script>
+name: 'loginform'
 export default {
   data () {
     return {
