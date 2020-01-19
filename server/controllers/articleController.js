@@ -71,7 +71,7 @@ class articleController {
     }
 
     static readOne(req, res, next) {
-        Article.findOne({_id: req.params.id})
+        Article.findOne({_id: req.params.id}).populate('userId', 'username')
                .then(result => {
                    res.status(200).json({result: result})
                })

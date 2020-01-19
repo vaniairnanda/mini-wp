@@ -9470,7 +9470,8 @@ var _default = {
       drafts: [],
       title: '',
       content: '',
-      category: ''
+      category: '',
+      readOne: {}
     };
   },
   props: {
@@ -9580,6 +9581,22 @@ var _default = {
         _this5.getArticles();
 
         _this5.getDrafts();
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    readArticle: function readArticle(itemId) {
+      var _this6 = this;
+
+      axios.get("http://localhost:3000/articles/".concat(itemId), {
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      }).then(function (_ref5) {
+        var data = _ref5.data;
+        console.log(data);
+        _this6.readOne = data.result;
+        _this6.onDashboard = 'readArticle';
       }).catch(function (err) {
         console.log(err);
       });
@@ -9834,7 +9851,12 @@ exports.default = _default;
                         "button",
                         {
                           staticClass:
-                            "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                            "bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded",
+                          on: {
+                            click: function($event) {
+                              return _vm.readArticle(article._id)
+                            }
+                          }
                         },
                         [_vm._v("Read More")]
                       ),
@@ -10031,7 +10053,57 @@ exports.default = _default;
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm._m(6)
+        _vm.onDashboard === "readArticle"
+          ? _c("div", { staticClass: "w-full" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "flex-col bg-white shadow",
+                  staticStyle: { "padding-left": "25px" }
+                },
+                [
+                  _c(
+                    "a",
+                    { staticStyle: { color: "red", "padding-top": "2em" } },
+                    [_vm._v(_vm._s(_vm.readOne.category))]
+                  ),
+                  _vm._v(" "),
+                  _c("h1", { staticStyle: { "font-size": "xx-large" } }, [
+                    _vm._v(_vm._s(_vm.readOne.title))
+                  ]),
+                  _vm._v(" "),
+                  _c("a", [
+                    _vm._v("By " + _vm._s(_vm.readOne.userId.username))
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("a", [_vm._v(_vm._s(_vm.readOne.created_at))])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex mb-4", attrs: { id: "blogcontent" } },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "w-1/2 h-12",
+                      staticStyle: { "padding-top": "2em" }
+                    },
+                    [
+                      _c("img", {
+                        staticStyle: { "max-width": "500px" },
+                        attrs: { src: _vm.readOne.image }
+                      }),
+                      _vm._v(" "),
+                      _c("p", [_vm._v(_vm._s(_vm.readOne.content))])
+                    ]
+                  )
+                ]
+              )
+            ])
+          : _vm._e()
       ])
     : _vm._e()
 }
@@ -10141,84 +10213,6 @@ var staticRenderFns = [
           "\n                            Save\n                      \n                    "
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-1/3" }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "font-sans flex items-center justify-center bg-blue-darker w-full py-8"
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass:
-                "overflow-hidden bg-white rounded max-w-xs w-full shadow-lg  leading-normal"
-            },
-            [
-              _c(
-                "a",
-                {
-                  staticClass: "block group hover:bg-blue p-4 border-b",
-                  attrs: { href: "#" }
-                },
-                [
-                  _c(
-                    "p",
-                    {
-                      staticClass:
-                        "font-bold text-lg mb-1 text-black group-hover:text-white"
-                    },
-                    [_vm._v("Blog Title")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    {
-                      staticClass:
-                        "text-grey-darker mb-2 group-hover:text-white"
-                    },
-                    [_vm._v("Summary of blog")]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "block group hover:bg-blue p-4",
-                  attrs: { href: "#" }
-                },
-                [
-                  _c(
-                    "p",
-                    {
-                      staticClass:
-                        "font-bold text-lg mb-1 text-black group-hover:text-white"
-                    },
-                    [_vm._v("Blog Title")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    {
-                      staticClass:
-                        "text-grey-darker mb-2 group-hover:text-white"
-                    },
-                    [_vm._v("Summary of blog")]
-                  )
-                ]
-              )
-            ]
-          )
-        ]
-      )
     ])
   }
 ]
@@ -11452,7 +11446,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34025" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46203" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

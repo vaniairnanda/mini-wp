@@ -52,7 +52,7 @@
                   </p>
                   <p class="text-gray-700 text-base"> by {{article.userId.username}}</p>
                   <p class="text-gray-700 text-base"> created at: {{article.created_at}}</p>
-                  <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >Read More</button>
+                  <button @click="readArticle(article._id)" class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" >Read More</button>
                   <button class="bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded" >Edit</button>
                   <button @click="deleteItem(article._id)" class="bg-transparent hover:bg-blue-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">Delete</button> 
                 </div>
@@ -115,20 +115,20 @@
                   </form>
             </div>
           </div>
-                <div class="w-1/3">
-                        <div class="font-sans flex items-center justify-center bg-blue-darker w-full py-8">
-                                <div class="overflow-hidden bg-white rounded max-w-xs w-full shadow-lg  leading-normal">
-                                    <a href="#" class="block group hover:bg-blue p-4 border-b">
-                                        <p class="font-bold text-lg mb-1 text-black group-hover:text-white">Blog Title</p>
-                                        <p class="text-grey-darker mb-2 group-hover:text-white">Summary of blog</p>
-                                    </a>
-                                    <a href="#" class="block group hover:bg-blue p-4">
-                                        <p class="font-bold text-lg mb-1 text-black group-hover:text-white">Blog Title</p>
-                                        <p class="text-grey-darker mb-2 group-hover:text-white">Summary of blog</p>
-                                    </a>
-                                </div>
-                        </div>
-                </div> 
+                <div v-if="onDashboard === 'readArticle'" class="w-full"> 
+                    <div style="padding-left: 25px;" class="flex-col bg-white shadow">
+                    <a style="color: red; padding-top: 2em;">{{readOne.category}}</a>
+                    <h1 style=" font-size: xx-large;">{{readOne.title}}</h1>
+                    <a>By {{readOne.userId.username}}</a><br>
+                    <a>{{readOne.created_at}}</a>
+                  </div>
+                  <div id="blogcontent" class="flex mb-4">
+                    <div style="padding-top: 2em;" class="w-1/2 h-12">
+                      <img :src="readOne.image" style="max-width: 500px">
+                      <p>{{readOne.content}}</p>
+                    </div>
+                   </div>
+                </div>
 
     </div>
 </template>
@@ -144,7 +144,8 @@ export default {
       drafts: [],
       title: '',
       content: '', 
-      category: ''
+      category: '',
+      readOne: {}
     };
   },
   props: {
@@ -244,6 +245,21 @@ export default {
                      this.onDashboard = 'viewPublished'
                      this.getArticles()
                      this.getDrafts()
+                 })
+                 .catch(err => {
+                     console.log(err)
+                 })
+        },
+        readArticle(itemId) {
+            axios.get(`http://localhost:3000/articles/${itemId}`,{
+                headers: { 
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+                 .then(({ data }) => {
+                     console.log(data)
+                     this.readOne = data.result
+                     this.onDashboard = 'readArticle'
                  })
                  .catch(err => {
                      console.log(err)
