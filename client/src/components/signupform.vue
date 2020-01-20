@@ -73,10 +73,12 @@ export default {
                 password: this.password
             })
             .then(({data}) => {
+                Swal.fire('Registration success!')
                 this.changePage('loginform')
             })
             .catch(err => {
                 console.log(err)
+                Swal.fire(err)
             })
         },
 

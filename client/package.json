@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "sweetalert2": "^9.6.0",
     "vue": "^2.6.11",
     "vue-hot-reload-api": "^2.3.4",
     "vue-tinymce-editor": "^1.6.2"

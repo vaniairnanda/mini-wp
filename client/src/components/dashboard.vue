@@ -152,6 +152,7 @@
 
 <script>
 import tinymce from 'vue-tinymce-editor'
+import Swal from 'sweetalert2'
 name: 'dashboard'
 export default {
     data() {
@@ -196,6 +197,7 @@ export default {
                 this.getDrafts()
                 this.getArticles()
                 this.onDashboard = 'uploadImage'
+                
             })
             .catch(err => {
                 console.log(err)
@@ -263,6 +265,7 @@ export default {
                  .then(({ data }) => {
                      console.log(data)
                      this.onDashboard = 'viewPublished'
+                     Swal.fire('Article successfully published!')
                      this.getArticles()
                      this.getDrafts()
                  })
@@ -306,6 +309,7 @@ export default {
             this.getDrafts()
             console.log(data)
             console.log("uploaded");
+            Swal.fire('Article successfully created!')
           })
           .catch((err) =>{
             console.log("failed");

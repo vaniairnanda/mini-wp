@@ -73,6 +73,7 @@
 
 
 <script>
+import Swal from 'sweetalert2'
 name: 'loginform'
 export default {
   data () {
@@ -102,10 +103,12 @@ export default {
                      console.log(data)
                      localStorage.setItem('access_token', data.access_token) 
                      localStorage.setItem('username', data.name)
+                     Swal.fire('Login successful')
                      this.changePage('dashboard') 
                  })
                  .catch(err => {
                      console.log(err)
+                     Swal.fire(err)
                  })  
         },
   }

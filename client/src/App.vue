@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import navbar from "./components/navbar-component"
 import dashboard from "./components/dashboard"
 import landingpage from "./components/landingpage"
